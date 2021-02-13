@@ -1,0 +1,19 @@
+{
+  "name": "@vieolo/date",
+  "version": "1.0.0",
+  "description": "Vieolo's Custom JS Date class",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "jest --runInBand"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vieolo/date-js.git"
+  },
+  "author": "Vieolo",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/Vieolo/date-js/issues"
+  },
+  "homepage": "https://github.com/Vieolo/date-js#readme"
+}
