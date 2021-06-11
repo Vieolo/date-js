@@ -10,42 +10,9 @@ export default class VDate extends Date {
 	static weekDayShort: string[] = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 	static weekDayLong: string[] = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
-	// Get functions ------------
-	
-	/**
-	 * returns the date in the desired format. default = `yyyy-mm-dd`
-	 * @param {'yyyy-mm-dd'|'dd/mm/yyyy'|'mm/dd/yyyy'|'month dd, yyyy'} format - The desired format. default = 'yyyy-mm-dd'
-	 * @returns String
-	 */
-	getDateOnly(format: 'yyyy-mm-dd'|'dd/mm/yyyy'|'mm/dd/yyyy'|'month dd, yyyy' = 'yyyy-mm-dd') : string {
-		let dd: number = this.getDate();
-		let ddString: string;
-		
-		let mm: number = this.getMonth()+1; //January is 0!
-		let mmString: string;
-		
-		let yyyy: number = this.getFullYear();
-		
-		if (dd < 10) {
-			ddString = '0' + dd.toString();
-		}
-		if (mm<10) {
-			mmString = '0' + mm.toString();
-		}
-		if (format == 'yyyy-mm-dd') {
-			return yyyy + "-" + mm + "-" + dd;
-		}else if (format == 'dd/mm/yyyy') {
-			return `${dd}/${mm}/${yyyy}`;
-		}else if (format == 'mm/dd/yyyy') {
-			return `${mm}/${dd}/${yyyy}`;
-		}else if (format == 'month dd, yyyy') {
-			return `${VDate.monthNamesShort[this.getMonth()]} ${dd}, ${yyyy}`;
-		}
-		return "";
-	}
 
 
-	// Set Functions -------------------
+	//#region Set Functions
 
 	/**
 	 * sets the time to the start of the day at 00:00:00:000
@@ -148,6 +115,8 @@ export default class VDate extends Date {
 		if (UTC) return Math.round(this.getTime()/1000)
 		else return Math.round(this.getTime()/1000);		
 	}
+
+	//#endregion
 
 
 	// Format Functions
@@ -431,7 +400,7 @@ export default class VDate extends Date {
 				return final;
 			}
 		}
-		return targetTime.getDateOnly();
+		return targetTime.formatDate();
 	}
 
 
