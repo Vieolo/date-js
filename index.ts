@@ -3,7 +3,13 @@
  * Custom extension of the Date class
  */
 export default class VDate extends Date {
-    
+
+	// Static Variables
+	static monthNamesShort: string[] = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"]
+	static monthNamesLong: string[] = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", 'December'];
+	static weekDayShort: string[] = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
+	static weekDayLong: string[] = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
 	// Get functions ------------
 	
 	/**
@@ -33,13 +39,7 @@ export default class VDate extends Date {
 		}else if (format == 'mm/dd/yyyy') {
 			return `${mm}/${dd}/${yyyy}`;
 		}else if (format == 'month dd, yyyy') {
-			let monthNames = [
-				"Jan", "Feb", "Mar",
-				"Apr", "May", "Jun", "Jul",
-				"Aug", "Sept", "Oct",
-				"Nov", "Dec"
-			];
-			return `${monthNames[this.getMonth()]} ${dd}, ${yyyy}`;
+			return `${VDate.monthNamesShort[this.getMonth()]} ${dd}, ${yyyy}`;
 		}
 		return "";
 	}
@@ -233,13 +233,7 @@ export default class VDate extends Date {
 		}else if (format == 'mm/dd/yyyy') {
 			return `${mmString}/${ddString}/${yyyy}`;
 		}else if (format == 'month dd, yyyy') {
-			let monthNames = [
-				"Jan", "Feb", "Mar",
-				"Apr", "May", "Jun", "Jul",
-				"Aug", "Sept", "Oct",
-				"Nov", "Dec"
-			];
-			return `${monthNames[this.getMonth()]} ${ddString}, ${yyyy}`;
+			return `${VDate.monthNamesShort[this.getMonth()]} ${ddString}, ${yyyy}`;
 		}
 
 		return "";
@@ -296,12 +290,7 @@ export default class VDate extends Date {
         let twelve = [
         	"AM", "PM"  
         ];
-        let monthNames = [
-          	"Jan", "Feb", "Mar",
-          	"Apr", "May", "Jun", "Jul",
-          	"Aug", "Sept", "Oct",
-          	"Nov", "Dec"
-        ];
+
 		let twelveIndex = 0;
 		
 		if (ampm == false) {
@@ -311,7 +300,7 @@ export default class VDate extends Date {
 			let minuteString = minute.toString();
 			if (minute < 10) minuteString = "0" + minuteString;
 
-			return monthNames[month] + ' ' + day + ', ' + year + ' '+  hourString + ':'+ minuteString;
+			return VDate.monthNamesShort[month] + ' ' + day + ', ' + year + ' '+  hourString + ':'+ minuteString;
 		}
         
         if (hour < 12){
@@ -323,7 +312,7 @@ export default class VDate extends Date {
            twelveIndex = 1;
         }
       
-        return monthNames[month] + ' ' + day + ', ' + year + ' '+  hour+ ':'+ minute + ' ' + twelve[twelveIndex] ;
+        return VDate.monthNamesShort[month] + ' ' + day + ', ' + year + ' '+  hour+ ':'+ minute + ' ' + twelve[twelveIndex] ;
 	}
 	
 	/**
@@ -451,14 +440,7 @@ export default class VDate extends Date {
 	 * @returns String - example: June 2019
 	 */
     formatMonth() : string {
-        let monthNames = [
-            "January", "February", "March",
-            "April", "May", "June", "July",
-            "August", "September", "October",
-            "November", "December"
-        ];
-        let twelveIndex = this.getMonth();
-        return monthNames[twelveIndex] + " " + this.getFullYear();
+		return `${VDate.monthNamesLong[this.getMonth()]} ${this.getFullYear()}`
     }
 
 

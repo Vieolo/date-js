@@ -69,7 +69,8 @@
 	"exclude": [
 		"*.test.ts",
 		"jest.config.js",
-		"coverage"
+		"coverage",
+		"./dist/**/*"
 	]
 }
   
