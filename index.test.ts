@@ -50,4 +50,20 @@ describe("VDate", () => {
     })
 
 
+
+    it("Formats dates correctly", () => {
+        let d = new VDate(2020, 9, 11, 14, 24, 11, 324);
+
+        expect(d.formatMonth()).toBe("October 2020");
+        
+        expect(d.formatDateTime()).toBe("Oct 11, 2020 14:24");
+        
+        expect(d.formatDate()).toBe("2020-10-11");
+        expect(d.formatDate("yyyy-mm-dd")).toBe("2020-10-11");
+        expect(d.formatDate("dd/mm/yyyy")).toBe("11/10/2020");
+        expect(d.formatDate("mm/dd/yyyy")).toBe("10/11/2020");
+        expect(d.formatDate("month dd, yyyy")).toBe("Oct 11, 2020");
+    })
+
+
 })
