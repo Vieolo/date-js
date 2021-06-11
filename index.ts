@@ -3,7 +3,13 @@
  * Custom extension of the Date class
  */
 export default class VDate extends Date {
-    
+
+	// Static Variables
+	static monthNamesShort: string[] = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"]
+	static monthNameLong: string[] = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", 'December'];
+	static weekDayShort: string[] = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
+	static weekDayLong: string[] = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
 	// Get functions ------------
 	
 	/**
