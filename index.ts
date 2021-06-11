@@ -119,7 +119,7 @@ export default class VDate extends Date {
 	//#endregion
 
 
-	// Format Functions
+	//#region Format Functions
 	
 	/**
 	 * Formats the time to the 12 hour scheme e.g. 10:25 am
@@ -412,8 +412,10 @@ export default class VDate extends Date {
 		return `${VDate.monthNamesLong[this.getMonth()]} ${this.getFullYear()}`
     }
 
+	//#endregion
 
-	// Utility Functions
+
+	//#region Modification Functions
 
 	/**
 	 * Changes the date by seconds
@@ -453,10 +455,12 @@ export default class VDate extends Date {
         return new VDate(this.setFullYear(this.getFullYear() + change));
 	}
 	
+	//#endregion
 
-	// Boolean Functions
+	
 
-
+	//#region Boolean Functions
+	
 	/**
 	 * If the year of the `VDate` is a leap year or not
 	 * @returns Boolean
@@ -491,16 +495,8 @@ export default class VDate extends Date {
 		return !isNaN(this.getTime())
 	}
 
-
-	// Convert Functions
-
-	/**
-	 * Converts the date to UTC
-	 */
-	toUTC() {				
-		var utc = VDate.UTC(this.getUTCFullYear(), this.getUTCMonth(), this.getUTCDate(), this.getUTCHours(), this.getUTCMinutes(), this.getUTCSeconds());
- 		return new VDate(utc);
-	}
+	//#endregion
+	
 
 
 
