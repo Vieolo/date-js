@@ -66,4 +66,24 @@ describe("VDate", () => {
     })
 
 
+
+    it("Sets the properties of the date correctly", () => {
+        let d = new VDate(2020, 9, 11, 14, 24, 11, 324);
+
+        // Setting the date
+        expect(d.setToDateStart().getTime()).toBe(new VDate(2020, 9, 11, 0, 0, 0, 0).getTime());
+        expect(d.setToDateEnd().getTime()).toBe(new VDate(2020, 9, 11, 23, 59, 59, 999).getTime());
+
+        // Setting the month
+        expect(d.setToMonthStart().getTime()).toBe(new VDate(2020, 9, 1, 0, 0, 0, 0).getTime());
+        expect(d.setToMonthEnd().getTime()).toBe(new VDate(2020, 9, 31, 23, 59, 59, 999).getTime());
+
+        // Setting the year
+        expect(d.setToYearStart().getTime()).toBe(new VDate(2020, 0, 1, 0, 0, 0, 0).getTime());
+        expect(d.setToYearEnd().getTime()).toBe(new VDate(2020, 11, 31, 23, 59, 59, 999).getTime());
+
+
+        // The original Date should not be modified
+        expect(d.getTime()).toBe(new VDate(2020, 9, 11, 14, 24, 11, 324).getTime());
+    })
 })
