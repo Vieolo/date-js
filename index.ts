@@ -15,96 +15,102 @@ export default class VDate extends Date {
 	//#region Set Functions
 
 	/**
-	 * sets the time to the start of the day at 00:00:00:000
+	 * sets the time to the start of the day at 00:00:00:000 and returns a new instance of the date
 	 * @param {Boolean} local - Whether to set the start of the local date. default = `true`
 	 * @returns {VDate}
 	 */
 	setToDateStart(local: boolean = true): VDate {
-		if (local) this.setHours(0, 0, 0, 0);
-		else this.setUTCHours(0, 0, 0, 0);
-		return this;
+		let newDate = new VDate(this.getTime())
+		if (local) newDate.setHours(0, 0, 0, 0);
+		else newDate.setUTCHours(0, 0, 0, 0);
+		return newDate;
 	}
 
 
 	/**
-	 * sets the time to the end of the day at 23:59:59:999
+	 * sets the time to the end of the day at 23:59:59:999 and returns a new instance of the date
 	 * @param {Boolean} local - Whether to set the end of the local date. default = `true`
 	 * @returns {VDate}
 	 */
 	setToDateEnd(local: boolean = true): VDate {
-		if (local) this.setHours(23, 59, 59, 999);
-		else this.setUTCHours(23, 59, 59, 999);
-		return this;
+		let newDate = new VDate(this.getTime())
+		if (local) newDate.setHours(23, 59, 59, 999);
+		else newDate.setUTCHours(23, 59, 59, 999);
+		return newDate;
 	}
 
 
 	/**
-	 * set the time to the start of the first day of the month at 00:00:00:000
+	 * set the time to the start of the first day of the month at 00:00:00:000 and returns a new instance of the date
 	 * @param {Boolean} local - Whether to set the start of the local month. default = `true`
 	 * @returns {VDate}
 	 */
 	setToMonthStart(local: boolean = true): VDate {
+		let newDate = new VDate(this.getTime())
 		if (local) {
-			this.setDate(1);
-			this.setHours(0, 0, 0, 0);
+			newDate.setDate(1);
+			newDate.setHours(0, 0, 0, 0);
 		} else {
-			this.setUTCDate(1);
-			this.setUTCHours(0, 0, 0, 0);
+			newDate.setUTCDate(1);
+			newDate.setUTCHours(0, 0, 0, 0);
 		}
-		return this;
+		return newDate;
 	}
 
 	/**
-	 * set the time to the end of the last day of the month at 23:59:59:999
+	 * set the time to the end of the last day of the month at 23:59:59:999 and returns a new instance of the date
 	 * @param {Boolean} local - Whether to set the end of the local month. default = `true`
 	 * @returns {VDate}
 	 */
 	setToMonthEnd(local: boolean = true): VDate {
-		this.addMonth(1);
+		let newDate = new VDate(this.getTime())
+		newDate.addMonth(1);
 		if (local) {
-			this.setDate(0);
-			this.setHours(23, 59, 59, 999);
+			newDate.setDate(0);
+			newDate.setHours(23, 59, 59, 999);
 		} else {
-			this.setUTCDate(0);
-			this.setUTCHours(23, 59, 59, 999);
+			newDate.setUTCDate(0);
+			newDate.setUTCHours(23, 59, 59, 999);
 		}
-		return this;
+		return newDate;
 	}
 
 	/**
-	 * set the time to the start of the first day of the year at 00:00:00:000
+	 * set the time to the start of the first day of the year at 00:00:00:000 and returns a new instance of the date
 	 * @param {Boolean} local - Whether to set the start of the local year. default = `true`
 	 * @returns {VDate}
 	 */
 	setToYearStart(local: boolean = true): VDate {
+		let newDate = new VDate(this.getTime())
 		if (local) {
-			this.setMonth(0);
-			this.setDate(1);
-			this.setHours(0, 0, 0, 0);
+			newDate.setMonth(0);
+			newDate.setDate(1);
+			newDate.setHours(0, 0, 0, 0);
 		} else {
-			this.setUTCMonth(0);
-			this.setUTCDate(1);
-			this.setUTCHours(0, 0, 0, 0);
+			newDate.setUTCMonth(0);
+			newDate.setUTCDate(1);
+			newDate.setUTCHours(0, 0, 0, 0);
 		}
-		return this;
+		return newDate;
 	}
 
 	/**
-	 * set the time to the end of the last day of the year at 23:59:59:999
+	 * set the time to the end of the last day of the year at 23:59:59:999 and returns a new instance of the date
 	 * @param {Boolean} local - Whether to set the end of the local year. default = `true`
 	 * @returns {VDate}
 	 */
 	setToYearEnd(local: boolean = true): VDate {
+		let newDate = new VDate(this.getTime())
 		if (local) {
-			this.setMonth(11);
-			this.setDate(31);
-			this.setHours(23, 59, 59, 999);
+			newDate.setMonth(11);
+			newDate.setDate(31);
+			newDate.setHours(23, 59, 59, 999);
 		} else {
-			this.setUTCMonth(11);
-			this.setUTCDate(31);
-			this.setUTCHours(23, 59, 59, 999);
+			newDate.setUTCMonth(11);
+			newDate.setUTCDate(31);
+			newDate.setUTCHours(23, 59, 59, 999);
 		}
-		return this;
+		return newDate;
 	}
 
 	/**
