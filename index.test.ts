@@ -53,16 +53,46 @@ describe("VDate", () => {
 
     it("Formats dates correctly", () => {
         let d = new VDate(2020, 9, 11, 14, 24, 11, 324);
+        let d2 = new VDate(2020, 2, 4, 5, 4, 11, 324);
+        let d3 = new VDate(2020, 0, 1, 12, 30, 11, 324);
+        let d4 = new VDate(2020, 0, 20, 0, 0, 11, 324);
 
         expect(d.formatMonth()).toBe("October 2020");
         
         expect(d.formatDateTime()).toBe("Oct 11, 2020 14:24");
+        expect(d2.formatDateTime()).toBe("Mar 04, 2020 05:04");
+        expect(d3.formatDateTime()).toBe("Jan 01, 2020 12:30");
+        expect(d4.formatDateTime()).toBe("Jan 20, 2020 00:00");
         
         expect(d.formatDate()).toBe("2020-10-11");
         expect(d.formatDate("yyyy-mm-dd")).toBe("2020-10-11");
         expect(d.formatDate("dd/mm/yyyy")).toBe("11/10/2020");
         expect(d.formatDate("mm/dd/yyyy")).toBe("10/11/2020");
         expect(d.formatDate("month dd, yyyy")).toBe("Oct 11, 2020");
+        expect(d2.formatDate()).toBe("2020-03-04");
+        expect(d2.formatDate("yyyy-mm-dd")).toBe("2020-03-04");
+        expect(d2.formatDate("dd/mm/yyyy")).toBe("04/03/2020");
+        expect(d2.formatDate("mm/dd/yyyy")).toBe("03/04/2020");
+        expect(d2.formatDate("month dd, yyyy")).toBe("Mar 04, 2020");
+        expect(d3.formatDate()).toBe("2020-01-01");
+        expect(d3.formatDate("yyyy-mm-dd")).toBe("2020-01-01");
+        expect(d3.formatDate("dd/mm/yyyy")).toBe("01/01/2020");
+        expect(d3.formatDate("mm/dd/yyyy")).toBe("01/01/2020");
+        expect(d3.formatDate("month dd, yyyy")).toBe("Jan 01, 2020");
+        expect(d4.formatDate()).toBe("2020-01-20");
+        expect(d4.formatDate("yyyy-mm-dd")).toBe("2020-01-20");
+        expect(d4.formatDate("dd/mm/yyyy")).toBe("20/01/2020");
+        expect(d4.formatDate("mm/dd/yyyy")).toBe("01/20/2020");
+        expect(d4.formatDate("month dd, yyyy")).toBe("Jan 20, 2020");
+
+        expect(d.formatTime()).toBe("14:24");
+        expect(d.formatTime(true)).toBe("02:24 PM");
+        expect(d2.formatTime()).toBe("05:04");
+        expect(d2.formatTime(true)).toBe("05:04 AM");
+        expect(d3.formatTime()).toBe("12:30");
+        expect(d3.formatTime(true)).toBe("12:30 PM");
+        expect(d4.formatTime()).toBe("00:00");
+        expect(d4.formatTime(true)).toBe("00:00 AM");
     })
 
 
