@@ -207,11 +207,8 @@ export default class VDate extends Date {
 			return `${ddString}/${mmString}/${yyyy}`;
 		} else if (format == 'mm/dd/yyyy') {
 			return `${mmString}/${ddString}/${yyyy}`;
-		} else if (format == 'month dd, yyyy') {
-			return `${VDate.monthNamesShort[this.getMonth()]} ${ddString}, ${yyyy}`;
-		}
-
-		return "";
+		} 
+		return `${VDate.monthNamesShort[this.getMonth()]} ${ddString}, ${yyyy}`;
 	}
 
 
@@ -257,37 +254,8 @@ export default class VDate extends Date {
 				}
 			}
 		}
-		let day = this.getDate();
-		let month = this.getMonth();
-		let year = this.getFullYear();
-		let hour = this.getHours();
-		let minute = this.getMinutes();
-		let twelve = [
-			"AM", "PM"
-		];
 
-		let twelveIndex = 0;
-
-		if (ampm == false) {
-			let hourString = hour.toString();
-			if (hour < 10) hourString = "0" + hourString;
-
-			let minuteString = minute.toString();
-			if (minute < 10) minuteString = "0" + minuteString;
-
-			return VDate.monthNamesShort[month] + ' ' + day + ', ' + year + ' ' + hourString + ':' + minuteString;
-		}
-
-		if (hour < 12) {
-			twelveIndex = 0;
-		} else if (hour == 12) {
-			twelveIndex = 1;
-		} else {
-			hour = hour - 12;
-			twelveIndex = 1;
-		}
-
-		return VDate.monthNamesShort[month] + ' ' + day + ', ' + year + ' ' + hour + ':' + minute + ' ' + twelve[twelveIndex];
+		return `${this.formatDate("month dd, yyyy")} ${this.formatTime(ampm)}`
 	}
 
 	/**
