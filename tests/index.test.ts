@@ -1,4 +1,4 @@
-import VDate from './index';
+import VDate from '../src/index';
 
 describe("VDate", () => {
 
