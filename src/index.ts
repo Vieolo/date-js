@@ -113,15 +113,6 @@ export default class VDate extends Date {
 		return newDate;
 	}
 
-	/**
-	 * Gets the timestamp of the date in seconds
-	 * @param {Boolean} UTC - Whether to convert the date to UTC first or not. default = True 
-	 */
-	getTimeStamptInSecond(UTC: boolean = true): number {
-		if (UTC) return Math.round(this.getTime() / 1000)
-		else return Math.round(this.getTime() / 1000);
-	}
-
 	//#endregion
 
 
@@ -260,7 +251,6 @@ export default class VDate extends Date {
 
 	/**
 	 * Formats the difference between now and the given target time.
-	 * If the given target time is before now, the given response will show the time passed. e.g. 2 days ago.
 	 * If the given target time is before now, the given response will show the time passed. e.g. 2 days ago.
 	 * @param {VDate} targetTime - The time to get the countdown
 	 * @param {Number} countDownLimit - default = 432000 seconds, if the difference is more than this number of seconds, a normal date is returned
