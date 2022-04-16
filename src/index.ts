@@ -223,9 +223,10 @@ export default class VDate extends Date {
 	 * @param {VDate} now - Default to new VDate(). Enter a date to compare to the target time instead of now
 	 * @return String - 
 	 */
-	static countDown(targetTime: VDate, countDownLimit: number = 432000, includeHour: boolean = false, includeMinutes: boolean = false, now: VDate = new VDate()): string {
-		if (now.isAfter(targetTime)) {
-			let difference = (now.getTime() - targetTime.getTime()) / 1000;
+	static countDown(targetTime: VDate, countDownLimit: number = 432000, includeHour: boolean = false, includeMinutes: boolean = false, now?: VDate): string {
+		let fn = now || new VDate();
+		if (fn.isAfter(targetTime)) {
+			let difference = (fn.getTime() - targetTime.getTime()) / 1000;
 			if (difference < 60) {
 				let d = parseInt(difference.toString());
 				return d.toString() + " seconds ago";
@@ -278,7 +279,7 @@ export default class VDate extends Date {
 				return final;
 			}
 		} else {
-			let difference = (targetTime.getTime() - now.getTime()) / 1000;
+			let difference = (targetTime.getTime() - fn.getTime()) / 1000;
 			if (difference < 60) {
 				let d = parseInt(difference.toString());
 				return d.toString() + " seconds";
@@ -462,7 +463,7 @@ export default class VDate extends Date {
 	 * @param {Number} [month] The month that its number of days will be returned
 	 * @returns Number
 	 */
-	static getDaysInMonth(year: number = new VDate().getFullYear(), month: number = new VDate().getMonth()): number {
+	static getDaysInMonth(year: number, month: number): number {
 		let targetMonth = parseInt(month.toString()) + 1;
 		return new VDate(year, targetMonth, 0).getDate();
 	}
@@ -473,7 +474,7 @@ export default class VDate extends Date {
 	 * @param {VDate} [date] the given date (defualt=today)
 	 * @returns Number
 	 */
-	static getDayOfYear(date: VDate = new VDate()): number {
+	static getDayOfYear(date: VDate): number {
 		let today = date;
 		return Math.ceil((today.getTime() - new VDate(today.getFullYear(), 0, 1).getTime()) / 86400000);
 	}
