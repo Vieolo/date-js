@@ -252,7 +252,6 @@ export default class VDate extends Date {
 	/**
 	 * Formats the difference between now and the given target time.
 	 * If the given target time is before now, the given response will show the time passed. e.g. 2 days ago.
-	 * If the given target time is before now, the given response will show the time passed. e.g. 2 days ago.
 	 * @param {VDate} targetTime - The time to get the countdown
 	 * @param {Number} countDownLimit - default = 432000 seconds, if the difference is more than this number of seconds, a normal date is returned
 	 * @param {Boolean} includeHour - Whether to include hours if along side the day difference in the countdown. default == false
