@@ -1,21 +1,19 @@
 # Date JS
-Vieolo's Custom JS Date class
+Vieolo's Custom JS Date class.
+`VDate` is an extension of the standard javascript `Date` class.
 
 ## Install
-to install, add the following to the `dependency` key of the `package.json` file of the project.
 
-```json
-"@vieolo/date": "github:Vieolo/date-js#1.0.0"
+```bash
+npm install @vieolo/date
 ```
 
 ## Usage
-In the target package, the functions can be imported as followed
+In the target package, the class can be imported as followed
 ```JS
 import VDate from '@vieolo/date';
 ```
 
-## Version Bump
-While bumping the version, the following files should be modified:
-- package.json
-- changelog.md (The user-facing change log for the user)
-- README.md (The version of the installation key-value pair)
+`VDate` is an extension of the native javascript `Date` class. So, the behavior of `VDate` is completely similar to that of native `Date`.
+
+`VDate` gives you the benefit of extra functionalities, both as instance methods and static functions.
