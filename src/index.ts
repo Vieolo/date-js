@@ -207,45 +207,10 @@ export default class VDate extends Date {
 
 	/**
 	 * Formats date and time
-	 * @param {Boolean} reverse if True, the time, upto 5 days ago will be shown
 	 * as 'ago' time. Such as 4 days ago or 2 hours ago. Default = `false`
 	 * @returns string -  example: Jun 12, 2019, 3:46 PM	 
 	 */
-	formatDateTime(reverse: boolean = false, ampm = false): string {
-		if (reverse) {
-			let nowTimeStamp = VDate.now();
-			let difference = (nowTimeStamp - this.getTime()) / 1000;
-
-			if (difference < 60) {
-				let d = parseInt(difference.toString());
-				return d.toString() + " seconds ago";
-
-			} else if (difference >= 60 && difference < 3600) {
-				let minutes = parseInt((difference / 60).toString());
-				if (minutes == 1) {
-					return minutes.toString() + " min ago";
-				} else {
-					return minutes.toString() + " mins ago";
-				}
-
-			} else if (difference >= 3600 && difference < 86400) {
-				let hours = parseInt((difference / 3600).toString());
-				if (hours == 1) {
-					return hours.toString() + " hour ago";
-				} else {
-					return hours.toString() + " hours ago";
-				}
-
-			} else if (difference >= 86400 && difference < 432000) {
-				var days = parseInt((difference / 86400).toString());
-				if (days == 1) {
-					return days.toString() + " day ago";
-				} else {
-					return days.toString() + " days ago";
-				}
-			}
-		}
-
+	formatDateTime(ampm = false): string {
 		return `${this.formatDate("month dd, yyyy")} ${this.formatTime(ampm)}`
 	}
 
