@@ -113,15 +113,6 @@ export default class VDate extends Date {
 		return newDate;
 	}
 
-	/**
-	 * Gets the timestamp of the date in seconds
-	 * @param {Boolean} UTC - Whether to convert the date to UTC first or not. default = True 
-	 */
-	getTimeStamptInSecond(UTC: boolean = true): number {
-		if (UTC) return Math.round(this.getTime() / 1000)
-		else return Math.round(this.getTime() / 1000);
-	}
-
 	//#endregion
 
 
