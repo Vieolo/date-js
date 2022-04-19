@@ -127,7 +127,7 @@ export default class VDate extends Date {
 		let hour = this.getHours();
 		let minute = this.getMinutes();
 
-		if (ampm == false) {
+		if (ampm === false) {
 			let hourString = hour.toString();
 			if (hour < 10) hourString = "0" + hourString;
 
@@ -141,7 +141,7 @@ export default class VDate extends Date {
 		let twelveIndex = 0;
 		if (hour < 12) {
 			twelveIndex = 0;
-		} else if (hour == 12) {
+		} else if (hour === 12) {
 			twelveIndex = 1;
 		} else {
 			hour = hour - 12;
@@ -192,11 +192,11 @@ export default class VDate extends Date {
 		if (mm < 10) {
 			mmString = '0' + mm.toString();
 		}
-		if (format == 'yyyy-mm-dd') {
+		if (format === 'yyyy-mm-dd') {
 			return yyyy + "-" + mmString + "-" + ddString;
-		} else if (format == 'dd/mm/yyyy') {
+		} else if (format === 'dd/mm/yyyy') {
 			return `${ddString}/${mmString}/${yyyy}`;
-		} else if (format == 'mm/dd/yyyy') {
+		} else if (format === 'mm/dd/yyyy') {
 			return `${mmString}/${ddString}/${yyyy}`;
 		} 
 		return `${VDate.monthNamesShort[this.getMonth()]} ${ddString}, ${yyyy}`;
@@ -233,7 +233,7 @@ export default class VDate extends Date {
 
 			} else if (difference >= 60 && difference < 3600) {
 				let minutes = parseInt((difference / 60).toString());
-				if (minutes == 1) {
+				if (minutes === 1) {
 					return minutes.toString() + " min ago";
 				} else {
 					return minutes.toString() + " mins ago";
@@ -242,7 +242,7 @@ export default class VDate extends Date {
 			} else if (difference >= 3600 && difference < 86400) {
 				let hours = parseInt((difference / 3600).toString());
 				let final = '';
-				if (hours == 1) {
+				if (hours === 1) {
 					final = hours.toString() + " hour";
 				} else {
 					final = hours.toString() + " hours";
@@ -251,7 +251,7 @@ export default class VDate extends Date {
 				if (includeMinutes) {
 					let minutes = parseInt(((difference % 3600) / 60).toString());
 					if (minutes > 0) {
-						if (minutes == 1) final += ` and 1 minute`
+						if (minutes === 1) final += ` and 1 minute`
 						else final += ` and ${minutes} minutes`;
 					}
 				}
@@ -261,14 +261,14 @@ export default class VDate extends Date {
 			} else if (difference >= 86400 && difference < countDownLimit) {
 				let days = parseInt((difference / 86400).toString());
 				let final = '';
-				if (days == 1) {
+				if (days === 1) {
 					final = days.toString() + " day";
 				} else {
 					final = days.toString() + " days";
 				}
 				if (includeHour) {
 					var hours = parseInt(((difference % 86400) / 3600).toString());
-					if (hours == 1) {
+					if (hours === 1) {
 						final += " and 1 hour ago";
 					} else {
 						final += " and " + hours + " hours ago";
@@ -286,7 +286,7 @@ export default class VDate extends Date {
 
 			} else if (difference >= 60 && difference < 3600) {
 				let minutes = parseInt((difference / 60).toString());
-				if (minutes == 1) {
+				if (minutes === 1) {
 					return minutes.toString() + " min";
 				} else {
 					return minutes.toString() + " mins";
@@ -295,7 +295,7 @@ export default class VDate extends Date {
 			} else if (difference >= 3600 && difference < 86400) {
 				let hours = parseInt((difference / 3600).toString());
 				let final = '';
-				if (hours == 1) {
+				if (hours === 1) {
 					final = hours.toString() + " hour";
 				} else {
 					final = hours.toString() + " hours";
@@ -304,7 +304,7 @@ export default class VDate extends Date {
 				if (includeMinutes) {
 					let minutes = parseInt(((difference % 3600) / 60).toString());
 					if (minutes > 0) {
-						if (minutes == 1) final += ` and 1 minute`
+						if (minutes === 1) final += ` and 1 minute`
 						else final += ` and ${minutes} minutes`;
 					}
 				}
@@ -314,14 +314,14 @@ export default class VDate extends Date {
 			} else if (difference >= 86400 && difference < countDownLimit) {
 				let days = parseInt((difference / 86400).toString());
 				let final = '';
-				if (days == 1) {
+				if (days === 1) {
 					final = days.toString() + " day";
 				} else {
 					final = days.toString() + " days";
 				}
 				if (includeHour) {
 					let hours = parseInt(((difference % 86400) / 3600).toString());
-					if (hours == 1) {
+					if (hours === 1) {
 						final += " and 1 hour";
 					} else {
 						final += " and " + hours + " hours";
@@ -411,7 +411,7 @@ export default class VDate extends Date {
 	 */
 	isLeap(): boolean {
 		let year = this.getFullYear();
-		return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
+		return ((year % 4 === 0) && (year % 100 != 0)) || (year % 400 === 0);
 	}
 
 	/**
@@ -488,7 +488,7 @@ export default class VDate extends Date {
 	 */
 	static getDaysInYear(year: VDate | number) {
 		let date: VDate;
-		if (typeof year == 'number') {
+		if (typeof year === 'number') {
 			date = new VDate(year, 1, 1);
 		} else {
 			date = year;
@@ -508,7 +508,7 @@ export default class VDate extends Date {
 		let weekNumber = 1 + Math.round(((today.getTime() - week1.getTime()) / 86400000 - 3 + (week1.getDay() + 6) % 7) / 7);
 
 		let startOfTheWeek = today.addDay((today.getDay() * -1) + 1);
-		let endOfTheWeek = today.addDay(today.getDay() == 0 ? 0 : (7 - today.getDay()));
+		let endOfTheWeek = today.addDay(today.getDay() === 0 ? 0 : (7 - today.getDay()));
 
 		return { start: startOfTheWeek, end: endOfTheWeek, weekNumber: weekNumber };
 	}
@@ -520,7 +520,7 @@ export default class VDate extends Date {
 	 * @param year The year containing the week
 	 */
 	static getWeekByWeekNumber(weekNumber: number, year: number): { start: VDate, end: VDate, weekNumber: number } {
-		let simple = new VDate(Date.UTC(year, 0, 1 + (weekNumber - 1) * 7));
+		let simple = new VDate(VDate.UTC(year, 0, 1 + (weekNumber - 1) * 7));
 		let dow = simple.getDay();
 		let weekStart = simple;
 		if (dow <= 4) weekStart.setDate(simple.getDate() - simple.getDay() + 1);
