@@ -334,5 +334,11 @@ describe("VDate", () => {
         expect(twoThree.weekNumber).toBe(53);
         expect(twoThree.start.formatDate()).toBe("2020-12-28");
         expect(twoThree.end.formatDate()).toBe("2021-01-03");
+
+        let twoFour = new VDate("2021-01-04").getWeek();
+
+        expect(twoFour.weekNumber).toBe(1);
+        expect(twoFour.start.formatDate()).toBe("2021-01-04");
+        expect(twoFour.end.formatDate()).toBe("2021-01-10");
     })
 })
