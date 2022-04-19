@@ -116,4 +116,45 @@ describe("VDate", () => {
         // The original Date should not be modified
         expect(d.getTime()).toBe(new VDate(2020, 9, 11, 14, 24, 11, 324).getTime());
     })
+
+
+    it("Gets time from minute count correctly", () => {
+        expect(VDate.getTimeFromMinuteCount(24)).toBe("24m");
+        expect(VDate.getTimeFromMinuteCount(55)).toBe("55m");
+        expect(VDate.getTimeFromMinuteCount(60)).toBe("1h 0m");
+        expect(VDate.getTimeFromMinuteCount(123)).toBe("2h 3m");
+        expect(VDate.getTimeFromMinuteCount(143)).toBe("2h 23m");
+    });
+
+
+
+    it("Adds time correctly", () => {
+        // 2020 was a leap year
+        let base = new VDate("2020-01-01").setToDateStart();
+
+        expect(base.addSecond(10).getTime()).toBe(base.getTime() + (10 * 1_000));
+        expect(base.addSecond(-10).getTime()).toBe(base.getTime() - (10 * 1_000));
+        
+        expect(base.addDay(1).formatDate()).toBe("2020-01-02");
+        expect(base.addDay(35).formatDate()).toBe("2020-02-05");
+        expect(base.addDay(60).formatDate()).toBe("2020-03-01");
+        expect(base.addDay(-1).formatDate()).toBe("2019-12-31");
+        expect(base.addDay(-35).formatDate()).toBe("2019-11-27");
+        expect(base.addDay(-60).formatDate()).toBe("2019-11-02");
+        
+        expect(base.addMonth(1).formatDate()).toBe("2020-02-01");
+        expect(base.addMonth(2).formatDate()).toBe("2020-03-01");
+        expect(base.addMonth(12).formatDate()).toBe("2021-01-01");
+        expect(base.addMonth(-1).formatDate()).toBe("2019-12-01");
+        expect(base.addMonth(-2).formatDate()).toBe("2019-11-01");
+        expect(base.addMonth(-12).formatDate()).toBe("2019-01-01");
+
+        expect(base.addYear(1).formatDate()).toBe("2021-01-01");
+        expect(base.addYear(2).formatDate()).toBe("2022-01-01");
+        expect(base.addYear(12).formatDate()).toBe("2032-01-01");
+        expect(base.addYear(-1).formatDate()).toBe("2019-01-01");
+        expect(base.addYear(-2).formatDate()).toBe("2018-01-01");
+        expect(base.addYear(-12).formatDate()).toBe("2008-01-01");
+
+    });
 })

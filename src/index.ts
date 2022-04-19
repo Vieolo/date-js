@@ -64,7 +64,7 @@ export default class VDate extends Date {
 	 */
 	setToMonthEnd(local: boolean = true): VDate {
 		let newDate = new VDate(this.getTime())
-		newDate.addMonth(1);
+		newDate = newDate.addMonth(1);
 		if (local) {
 			newDate.setDate(0);
 			newDate.setHours(23, 59, 59, 999);
@@ -367,7 +367,7 @@ export default class VDate extends Date {
 	 * @returns VDate - Returns a new instance of `VDate`
 	 */
 	addSecond(change: number): VDate {
-		return new VDate(this.setSeconds(this.getSeconds() + change));
+		return new VDate(this.getTime() + (change * 1_000));
 	}
 
 	/**
@@ -376,7 +376,7 @@ export default class VDate extends Date {
 	 * @returns VDate - Returns a new instance of `VDate`
 	 */
 	addDay(change: number): VDate {
-		return new VDate(this.setDate(this.getDate() + change));
+		return new VDate(this.getTime() + (change * 86_400_000));
 	}
 
 
@@ -386,7 +386,7 @@ export default class VDate extends Date {
 	 * @returns VDate - Returns a new instance of `VDate`
 	 */
 	addMonth(change: number): VDate {
-		return new VDate(this.setMonth(this.getMonth() + change));
+		return new VDate(new VDate(this.getTime()).setMonth(this.getMonth() + change));
 
 	}
 
@@ -396,7 +396,7 @@ export default class VDate extends Date {
 	 * @returns VDate - Returns a new instance of `VDate`
 	 */
 	addYear(change: number): VDate {
-		return new VDate(this.setFullYear(this.getFullYear() + change));
+		return new VDate(new VDate(this.getTime()).setFullYear(this.getFullYear() + change));
 	}
 
 	//#endregion
