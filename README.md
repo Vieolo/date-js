@@ -99,7 +99,14 @@ let yearEnd = new VDate().setToYearEnd();
 Formats the time of the `VDate` instance. e.g. 10:25 am
 
 #### ***formatDate()***
-Formats the date of the `VDate` instance. e.g. 20/10/2020
+Formats the date of the `VDate` instance. The available formats are:
+
+- `yyyy-mm-dd`      : 2022-02-24 (default)
+- `dd/mm/yyyy`      : 24/02/2022
+- `dd.mm.yyyy`      : 24.02.2022
+- `mm/dd/yyyy`      : 02/24/2022
+- `mon dd, yyyy`    : Feb 2, 2022
+- `month dd, yyyy`  : February 2, 2022
 
 #### ***formatDateTime()***
 Formats the date and time of the `VDate` instance. e.g. 20/10/2020 10:25 am
@@ -110,6 +117,12 @@ Formats the month and year of the `VDate` instance. e.g. June 2019
 
 #### ***addSecond()***
 Returns a new instance of `VDate` instance with the added seconds.
+
+#### ***addMinute()***
+Returns a new instance of `VDate` instance with the added minutes.
+
+#### ***addHour()***
+Returns a new instance of `VDate` instance with the added hours.
 
 #### ***addDay()***
 Returns a new instance of `VDate` instance with the added days.
@@ -129,6 +142,9 @@ Compares the instance of `VDate` with another one.
 #### ***isBefore()***
 Compares the instance of `VDate` with another one.
 
+#### ***isOnSameDay()***
+Checks if the instance of `VDate` is on the same day as the other one
+
 #### ***isValid()***
 Checks the validity of the instance.
 
@@ -137,4 +153,13 @@ Gets the data of the week of the instance. The return object contains the follow
 
 - start: VDate -> start date of the week
 - end: VDate -> end date of the week
-- weekNumber: number -> the number of the week in the year
+- weekNumber: number -> the number of the week in the year (Based on ISO)
+
+#### ***getMonthName()***
+Gets the short or long format of the name of the month (default: long) in English
+
+#### ***getDayName()***
+Gets the short or long format of the name of the weekday (default: long) in English
+
+#### ***getQuarter()***
+Gets the number of the quarter of the date

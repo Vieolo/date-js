@@ -2,7 +2,7 @@ import VDate from '../src/index';
 
 describe("VDate", () => {
 
-    it("Gets the static variables correctly", () => {
+    it("Gets the name of the months and weekdays correctly", () => {
 
         expect(VDate.monthNamesShort[0]).toBe("Jan");
         expect(VDate.monthNamesShort[1]).toBe("Feb");
@@ -47,8 +47,15 @@ describe("VDate", () => {
         expect(VDate.weekDayLong[5]).toBe("Friday");
         expect(VDate.weekDayLong[6]).toBe("Saturday");        
 
-    })
+        expect(new VDate("2020-10-10").getMonthName()).toBe(VDate.monthNamesLong[9])
+        expect(new VDate("2020-10-10").getMonthName("long")).toBe(VDate.monthNamesLong[9])
+        expect(new VDate("2020-10-10").getMonthName("short")).toBe(VDate.monthNamesShort[9])
 
+        expect(new VDate("2023-04-28").getDayName()).toBe(VDate.weekDayLong[5])
+        expect(new VDate("2023-04-28").getDayName("long")).toBe(VDate.weekDayLong[5])
+        expect(new VDate("2023-04-28").getDayName("short")).toBe(VDate.weekDayShort[5])
+
+    })
 
 
     it("Formats dates correctly", () => {
@@ -58,6 +65,8 @@ describe("VDate", () => {
         let d4 = new VDate(2020, 0, 20, 0, 0, 11, 324);
 
         expect(d.formatMonth()).toBe("October 2020");
+        expect(d.formatMonth('long')).toBe("October 2020");
+        expect(d.formatMonth('short')).toBe("Oct 2020");
         
         expect(d.formatDateTime()).toBe("Oct 11, 2020 14:24");
         expect(d2.formatDateTime()).toBe("Mar 04, 2020 05:04");
@@ -67,23 +76,34 @@ describe("VDate", () => {
         expect(d.formatDate()).toBe("2020-10-11");
         expect(d.formatDate("yyyy-mm-dd")).toBe("2020-10-11");
         expect(d.formatDate("dd/mm/yyyy")).toBe("11/10/2020");
+        expect(d.formatDate("dd.mm.yyyy")).toBe("11.10.2020");
         expect(d.formatDate("mm/dd/yyyy")).toBe("10/11/2020");
-        expect(d.formatDate("month dd, yyyy")).toBe("Oct 11, 2020");
+        expect(d.formatDate("mon dd, yyyy")).toBe("Oct 11, 2020");
+        expect(d.formatDate("month dd, yyyy")).toBe("October 11, 2020");
+      
         expect(d2.formatDate()).toBe("2020-03-04");
         expect(d2.formatDate("yyyy-mm-dd")).toBe("2020-03-04");
         expect(d2.formatDate("dd/mm/yyyy")).toBe("04/03/2020");
+        expect(d2.formatDate("dd.mm.yyyy")).toBe("04.03.2020");
         expect(d2.formatDate("mm/dd/yyyy")).toBe("03/04/2020");
-        expect(d2.formatDate("month dd, yyyy")).toBe("Mar 04, 2020");
+        expect(d2.formatDate("mon dd, yyyy")).toBe("Mar 04, 2020");
+        expect(d2.formatDate("month dd, yyyy")).toBe("March 04, 2020");
+      
         expect(d3.formatDate()).toBe("2020-01-01");
         expect(d3.formatDate("yyyy-mm-dd")).toBe("2020-01-01");
         expect(d3.formatDate("dd/mm/yyyy")).toBe("01/01/2020");
+        expect(d3.formatDate("dd.mm.yyyy")).toBe("01.01.2020");
         expect(d3.formatDate("mm/dd/yyyy")).toBe("01/01/2020");
-        expect(d3.formatDate("month dd, yyyy")).toBe("Jan 01, 2020");
+        expect(d3.formatDate("mon dd, yyyy")).toBe("Jan 01, 2020");
+        expect(d3.formatDate("month dd, yyyy")).toBe("January 01, 2020");
+      
         expect(d4.formatDate()).toBe("2020-01-20");
         expect(d4.formatDate("yyyy-mm-dd")).toBe("2020-01-20");
         expect(d4.formatDate("dd/mm/yyyy")).toBe("20/01/2020");
+        expect(d4.formatDate("dd.mm.yyyy")).toBe("20.01.2020");
         expect(d4.formatDate("mm/dd/yyyy")).toBe("01/20/2020");
-        expect(d4.formatDate("month dd, yyyy")).toBe("Jan 20, 2020");
+        expect(d4.formatDate("mon dd, yyyy")).toBe("Jan 20, 2020");
+        expect(d4.formatDate("month dd, yyyy")).toBe("January 20, 2020");
 
         expect(d.formatTime()).toBe("14:24");
         expect(d.formatTime(true)).toBe("02:24 PM");
@@ -118,6 +138,7 @@ describe("VDate", () => {
     })
 
 
+
     it("Gets time from minute count correctly", () => {
         expect(VDate.getTimeFromMinuteCount(24)).toBe("24m");
         expect(VDate.getTimeFromMinuteCount(55)).toBe("55m");
@@ -134,6 +155,12 @@ describe("VDate", () => {
 
         expect(base.addSecond(10).getTime()).toBe(base.getTime() + (10 * 1_000));
         expect(base.addSecond(-10).getTime()).toBe(base.getTime() - (10 * 1_000));
+
+        expect(base.addMinute(10).getTime()).toBe(base.getTime() + (10 * 60 * 1_000));
+        expect(base.addMinute(-10).getTime()).toBe(base.getTime() - (10 * 60 * 1_000));
+
+        expect(base.addHour(10).getTime()).toBe(base.getTime() + (10 * 60 * 60 * 1_000));
+        expect(base.addHour(-10).getTime()).toBe(base.getTime() - (10 * 60 * 60 * 1_000));
         
         expect(base.addDay(1).formatDate()).toBe("2020-01-02");
         expect(base.addDay(35).formatDate()).toBe("2020-02-05");
@@ -179,13 +206,20 @@ describe("VDate", () => {
 
         expect(two.isBefore(one)).toBeFalsy();
         expect(one.isAfter(two)).toBeFalsy();
+
+        expect(one.isOnSameDay(two)).toBeTruthy();
+        expect(two.isOnSameDay(one)).toBeTruthy();
+        expect(one.isOnSameDay(new VDate("2020-02-02"))).toBeFalsy();
+        expect(one.isOnSameDay(new VDate("2020-01-31"))).toBeFalsy();
     })
+
 
 
     it("Detects an invalid date correctly", () => {
         expect(new VDate("2020-13-01").isValid()).toBeFalsy();
         expect(new VDate("2020-12-01").isValid()).toBeTruthy();
     })
+
 
 
     it("Gets the number of days correctly", () => {
@@ -200,6 +234,7 @@ describe("VDate", () => {
         expect(VDate.getDaysInYear(2020)).toBe(366);
         expect(VDate.getDaysInYear(new VDate("2021-01-01"))).toBe(365);
     });
+
 
 
     it("Gets weeks correctly", () => {
@@ -341,6 +376,7 @@ describe("VDate", () => {
         expect(twoFour.start.formatDate()).toBe("2021-01-04");
         expect(twoFour.end.formatDate()).toBe("2021-01-10");
     })
+
 
 
     it("Calculates the countdown correctly", () => {
@@ -485,5 +521,29 @@ describe("VDate", () => {
             VDate.countDown(new VDate("2020-10-14"), { now: new VDate("2020-10-10") })
         ).toBe("in 4 days")
 
+    })
+
+
+
+    it("Gets quarter correctly", () => {
+        expect(new VDate("2020-01-01").getQuarter()).toBe(1);
+        expect(new VDate("2020-02-01").getQuarter()).toBe(1);
+        expect(new VDate("2020-03-01").getQuarter()).toBe(1);
+        expect(new VDate("2020-03-31").getQuarter()).toBe(1);
+
+        expect(new VDate("2020-04-01").getQuarter()).toBe(2);
+        expect(new VDate("2020-05-01").getQuarter()).toBe(2);
+        expect(new VDate("2020-06-01").getQuarter()).toBe(2);
+        expect(new VDate("2020-06-30").getQuarter()).toBe(2);
+
+        expect(new VDate("2020-07-01").getQuarter()).toBe(3);
+        expect(new VDate("2020-08-01").getQuarter()).toBe(3);
+        expect(new VDate("2020-09-01").getQuarter()).toBe(3);
+        expect(new VDate("2020-09-30").getQuarter()).toBe(3);
+
+        expect(new VDate("2020-10-01").getQuarter()).toBe(4);
+        expect(new VDate("2020-11-01").getQuarter()).toBe(4);
+        expect(new VDate("2020-12-01").getQuarter()).toBe(4);
+        expect(new VDate("2020-12-31").getQuarter()).toBe(4);
     })
 })

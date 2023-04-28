@@ -1,4 +1,4 @@
-export type DateFormats = 'yyyy-mm-dd' | 'dd/mm/yyyy' | 'mm/dd/yyyy' | 'month dd, yyyy'
+export type DateFormats = 'yyyy-mm-dd' | 'dd/mm/yyyy' | 'mm/dd/yyyy' | "dd.mm.yyyy" | 'month dd, yyyy' | 'mon dd, yyyy'
 
 
 /**
@@ -200,6 +200,10 @@ export default class VDate extends Date {
 			return `${ddString}/${mmString}/${yyyy}`;
 		} else if (format === 'mm/dd/yyyy') {
 			return `${mmString}/${ddString}/${yyyy}`;
+		} else if (format === 'dd.mm.yyyy') {
+			return `${ddString}.${mmString}.${yyyy}`;
+		} else if (format === "month dd, yyyy") {
+			return `${VDate.monthNamesLong[this.getMonth()]} ${ddString}, ${yyyy}`;
 		}
 		return `${VDate.monthNamesShort[this.getMonth()]} ${ddString}, ${yyyy}`;
 	}
@@ -208,12 +212,13 @@ export default class VDate extends Date {
 
 
 	/**
-	 * Formats date and time
-	 * as 'ago' time. Such as 4 days ago or 2 hours ago. Default = `false`
-	 * @returns string -  example: Jun 12, 2019, 3:46 PM	 
+	 * Formats the date and time
+	 * @param format The format of the date (default: `mon dd, yyy`)
+	 * @param ampm Whether the time should be displayed as 24 hours or as AM/PM
+	 * @returns string
 	 */
-	formatDateTime(ampm = false): string {
-		return `${this.formatDate("month dd, yyyy")} ${this.formatTime(ampm)}`
+	formatDateTime(format: DateFormats = "mon dd, yyyy", ampm = false): string {
+		return `${this.formatDate(format)} ${this.formatTime(ampm)}`
 	}
 
 	/**
@@ -316,8 +321,8 @@ export default class VDate extends Date {
 	 * formats the date as the month and full year
 	 * @returns String - example: June 2019
 	 */
-	formatMonth(): string {
-		return `${VDate.monthNamesLong[this.getMonth()]} ${this.getFullYear()}`
+	formatMonth(length?: "long" | "short"): string {
+		return `${(length === 'short' ? VDate.monthNamesShort : VDate.monthNamesLong)[this.getMonth()]} ${this.getFullYear()}`
 	}
 
 
@@ -349,6 +354,24 @@ export default class VDate extends Date {
 	}
 
 	/**
+	 * Changes the date by minutes
+	 * @param {Number} change - Adds (or reduces) this number of minutes to (or from) the date 
+	 * @returns VDate - Returns a new instance of `VDate`
+	 */
+	addMinute(change: number): VDate {
+		return new VDate(this.getTime() + (change * 60 * 1_000));
+	}
+
+	/**
+	 * Changes the date by hours
+	 * @param {Number} change - Adds (or reduces) this number of hours to (or from) the date 
+	 * @returns VDate - Returns a new instance of `VDate`
+	 */
+	addHour(change: number): VDate {
+		return new VDate(this.getTime() + (change * 60 * 60 * 1_000));
+	}
+
+	/**
 	 * Changes the date by days
 	 * @param {Number} change - Adds (or reduces) this number of days to (or from) the date 
 	 * @returns VDate - Returns a new instance of `VDate`
@@ -365,7 +388,6 @@ export default class VDate extends Date {
 	 */
 	addMonth(change: number): VDate {
 		return new VDate(new VDate(this.getTime()).setMonth(this.getMonth() + change));
-
 	}
 
 	/**
@@ -406,6 +428,16 @@ export default class VDate extends Date {
 	 */
 	isBefore(otherDate: VDate): boolean {
 		return this < otherDate ? true : false;
+	}
+
+	/**
+	 * Checks if `otherDate` is on the same day as this date or not
+	 * @param {VDate} otherDate 
+	 */
+	isOnSameDay(otherDate: VDate): boolean {
+		return this.getFullYear() === otherDate.getFullYear() && 
+			this.getMonth() === otherDate.getMonth() && 
+			this.getDate() === otherDate.getDate();
 	}
 
 	/**
@@ -475,6 +507,12 @@ export default class VDate extends Date {
 	}
 
 
+	/**
+	 * Returns an object containing the start, end, and the weeknumber of the date object
+	 * 
+	 * The week number is calculated based on ISO standard
+	 * @returns Week data
+	 */
 	getWeek(): { start: VDate, end: VDate, weekNumber: number } {
 		let today = new VDate(this.getTime());
 		today.setHours(0, 0, 0, 0);
@@ -504,6 +542,32 @@ export default class VDate extends Date {
 		if (dow <= 4) weekStart.setDate(simple.getDate() - simple.getDay() + 1);
 		else weekStart.setDate(simple.getDate() + 8 - simple.getDay());
 		return weekStart.getWeek();
+	}
+
+	/**
+	 * Returns the number of the quarter of the date object
+	 * @returns number
+	 */
+	getQuarter() : number {
+		return Math.ceil((this.getMonth() + 1) / 3)
+	}
+
+	/**
+	 * Returns the name of the month in English
+	 * @param length Whether the long format of the month name to be returned or the short format (default: long)
+	 * @returns string
+	 */
+	getMonthName(length?: "long" | "short"): string {
+		return (length === "short" ? VDate.monthNamesShort : VDate.monthNamesLong)[this.getMonth()]
+	}
+
+	/**
+	 * Returns the name of the day in English
+	 * @param length Whether the long format of the day name to be returned or the long format (default: long)
+	 * @returns string
+	 */
+	getDayName(length?: "long" | "short"): string {
+		return (length === "short" ? VDate.weekDayShort : VDate.weekDayLong)[this.getDay()]
 	}
 
 	//#endregion
