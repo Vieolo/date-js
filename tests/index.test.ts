@@ -142,6 +142,12 @@ describe("VDate", () => {
 
         expect(base.addSecond(10).getTime()).toBe(base.getTime() + (10 * 1_000));
         expect(base.addSecond(-10).getTime()).toBe(base.getTime() - (10 * 1_000));
+
+        expect(base.addMinute(10).getTime()).toBe(base.getTime() + (10 * 60 * 1_000));
+        expect(base.addMinute(-10).getTime()).toBe(base.getTime() - (10 * 60 * 1_000));
+
+        expect(base.addHour(10).getTime()).toBe(base.getTime() + (10 * 60 * 60 * 1_000));
+        expect(base.addHour(-10).getTime()).toBe(base.getTime() - (10 * 60 * 60 * 1_000));
         
         expect(base.addDay(1).formatDate()).toBe("2020-01-02");
         expect(base.addDay(35).formatDate()).toBe("2020-02-05");

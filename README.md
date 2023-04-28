@@ -111,6 +111,12 @@ Formats the month and year of the `VDate` instance. e.g. June 2019
 #### ***addSecond()***
 Returns a new instance of `VDate` instance with the added seconds.
 
+#### ***addMinute()***
+Returns a new instance of `VDate` instance with the added minutes.
+
+#### ***addHour()***
+Returns a new instance of `VDate` instance with the added hours.
+
 #### ***addDay()***
 Returns a new instance of `VDate` instance with the added days.
 

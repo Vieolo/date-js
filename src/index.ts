@@ -349,6 +349,24 @@ export default class VDate extends Date {
 	}
 
 	/**
+	 * Changes the date by minutes
+	 * @param {Number} change - Adds (or reduces) this number of minutes to (or from) the date 
+	 * @returns VDate - Returns a new instance of `VDate`
+	 */
+	addMinute(change: number): VDate {
+		return new VDate(this.getTime() + (change * 60 * 1_000));
+	}
+
+	/**
+	 * Changes the date by hours
+	 * @param {Number} change - Adds (or reduces) this number of hours to (or from) the date 
+	 * @returns VDate - Returns a new instance of `VDate`
+	 */
+	addHour(change: number): VDate {
+		return new VDate(this.getTime() + (change * 60 * 60 * 1_000));
+	}
+
+	/**
 	 * Changes the date by days
 	 * @param {Number} change - Adds (or reduces) this number of days to (or from) the date 
 	 * @returns VDate - Returns a new instance of `VDate`
@@ -365,7 +383,6 @@ export default class VDate extends Date {
 	 */
 	addMonth(change: number): VDate {
 		return new VDate(new VDate(this.getTime()).setMonth(this.getMonth() + change));
-
 	}
 
 	/**
