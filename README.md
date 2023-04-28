@@ -99,7 +99,14 @@ let yearEnd = new VDate().setToYearEnd();
 Formats the time of the `VDate` instance. e.g. 10:25 am
 
 #### ***formatDate()***
-Formats the date of the `VDate` instance. e.g. 20/10/2020
+Formats the date of the `VDate` instance. The available formats are:
+
+- `yyyy-mm-dd`      : 2022-02-24 (default)
+- `dd/mm/yyyy`      : 24/02/2022
+- `dd.mm.yyyy`      : 24.02.2022
+- `mm/dd/yyyy`      : 02/24/2022
+- `mon dd, yyyy`    : Feb 2, 2022
+- `month dd, yyyy`  : February 2, 2022
 
 #### ***formatDateTime()***
 Formats the date and time of the `VDate` instance. e.g. 20/10/2020 10:25 am

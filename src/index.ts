@@ -1,4 +1,4 @@
-export type DateFormats = 'yyyy-mm-dd' | 'dd/mm/yyyy' | 'mm/dd/yyyy' | 'month dd, yyyy'
+export type DateFormats = 'yyyy-mm-dd' | 'dd/mm/yyyy' | 'mm/dd/yyyy' | "dd.mm.yyyy" | 'month dd, yyyy' | 'mon dd, yyyy'
 
 
 /**
@@ -200,6 +200,10 @@ export default class VDate extends Date {
 			return `${ddString}/${mmString}/${yyyy}`;
 		} else if (format === 'mm/dd/yyyy') {
 			return `${mmString}/${ddString}/${yyyy}`;
+		} else if (format === 'dd.mm.yyyy') {
+			return `${ddString}.${mmString}.${yyyy}`;
+		} else if (format === "month dd, yyyy") {
+			return `${VDate.monthNamesLong[this.getMonth()]} ${ddString}, ${yyyy}`;
 		}
 		return `${VDate.monthNamesShort[this.getMonth()]} ${ddString}, ${yyyy}`;
 	}
@@ -208,12 +212,13 @@ export default class VDate extends Date {
 
 
 	/**
-	 * Formats date and time
-	 * as 'ago' time. Such as 4 days ago or 2 hours ago. Default = `false`
-	 * @returns string -  example: Jun 12, 2019, 3:46 PM	 
+	 * Formats the date and time
+	 * @param format The format of the date (default: `mon dd, yyy`)
+	 * @param ampm Whether the time should be displayed as 24 hours or as AM/PM
+	 * @returns string
 	 */
-	formatDateTime(ampm = false): string {
-		return `${this.formatDate("month dd, yyyy")} ${this.formatTime(ampm)}`
+	formatDateTime(format: DateFormats = "mon dd, yyyy", ampm = false): string {
+		return `${this.formatDate(format)} ${this.formatTime(ampm)}`
 	}
 
 	/**
@@ -316,8 +321,8 @@ export default class VDate extends Date {
 	 * formats the date as the month and full year
 	 * @returns String - example: June 2019
 	 */
-	formatMonth(): string {
-		return `${VDate.monthNamesLong[this.getMonth()]} ${this.getFullYear()}`
+	formatMonth(length?: "long" | "short"): string {
+		return `${(length === 'short' ? VDate.monthNamesShort : VDate.monthNamesLong)[this.getMonth()]} ${this.getFullYear()}`
 	}
 
 
