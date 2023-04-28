@@ -138,3 +138,9 @@ Gets the data of the week of the instance. The return object contains the follow
 - start: VDate -> start date of the week
 - end: VDate -> end date of the week
 - weekNumber: number -> the number of the week in the year
+
+#### ***getMonthName()***
+Gets the short or long format of the name of the month (default: long) in English
+
+#### ***getDayName()***
+Gets the short or long format of the name of the weekday (default: long) in English

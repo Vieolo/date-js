@@ -506,5 +506,23 @@ export default class VDate extends Date {
 		return weekStart.getWeek();
 	}
 
+	/**
+	 * Returns the name of the month in English
+	 * @param length Whether the long format of the month name to be returned or the short format (default: long)
+	 * @returns string
+	 */
+	getMonthName(length?: "long" | "short"): string {
+		return (length === "short" ? VDate.monthNamesShort : VDate.monthNamesLong)[this.getMonth()]
+	}
+
+	/**
+	 * Returns the name of the day in English
+	 * @param length Whether the long format of the day name to be returned or the long format (default: long)
+	 * @returns string
+	 */
+	getDayName(length?: "long" | "short"): string {
+		return (length === "short" ? VDate.weekDayShort : VDate.weekDayLong)[this.getDay()]
+	}
+
 	//#endregion
 }
