@@ -341,4 +341,149 @@ describe("VDate", () => {
         expect(twoFour.start.formatDate()).toBe("2021-01-04");
         expect(twoFour.end.formatDate()).toBe("2021-01-10");
     })
+
+
+    it("Calculates the countdown correctly", () => {
+
+        let now = new VDate();
+        let sec20 = 20_000;
+        let min1 = 60 * 1_000;
+        let min12 = 12 * min1;
+        let hour1 = 60 * 60 * 1_000;
+        let hour3 = 3 * hour1;
+        let day1 = 24 * hour1;
+        let day4 = 4 * day1;
+        let day6 = 6 * day1;
+        let day8 = 8 * day1;
+
+        // Past, less than a minute
+        expect(VDate.countDown(
+            new VDate(now.getTime() - sec20))
+        ).toBe("20 seconds ago")
+        expect(VDate.countDown(
+            new VDate(now.getTime() - (59 * 1_000)))
+        ).toBe("59 seconds ago")
+
+        
+        // Past, less than an hour
+        expect(
+            VDate.countDown(new VDate(now.getTime() - min1))
+            ).toBe("1 min ago")
+        expect(
+            VDate.countDown(new VDate(now.getTime() - min12))
+        ).toBe("12 mins ago")
+
+        
+        // Past, less than a day
+        expect(
+            VDate.countDown(new VDate(now.getTime() - hour1))
+        ).toBe("1 hour ago")
+        expect(
+            VDate.countDown(new VDate(now.getTime() - hour3))
+        ).toBe("3 hours ago")
+        expect(
+            VDate.countDown(new VDate(now.getTime() - hour3 - min1), { includeMinutes: true })
+        ).toBe("3 hours and 1 min ago")
+        expect(
+            VDate.countDown(new VDate(now.getTime() - hour3 - min12), { includeMinutes: true })
+        ).toBe("3 hours and 12 mins ago")
+
+
+        // Past, more than a day
+        expect(
+            VDate.countDown(new VDate(now.getTime() - day1))
+        ).toBe("1 day ago")
+        expect(
+            VDate.countDown(new VDate(now.getTime() - day4))
+        ).toBe("4 days ago")
+        expect(
+            VDate.countDown(new VDate(now.getTime() - day4 - hour1), { includeHour: true })
+        ).toBe("4 days and 1 hour ago")
+        expect(
+            VDate.countDown(new VDate(now.getTime() - day4 - hour3), { includeHour: true })
+        ).toBe("4 days and 3 hours ago")
+
+        
+        // Past, older than the limit
+        expect(
+            VDate.countDown(new VDate(now.getTime() - day6), { overLimitDateFormat: 'dd/mm/yyyy' })
+        ).toBe(now.addDay(-6).formatDate("dd/mm/yyyy"))
+
+        // Past, with custom limit
+        expect(
+            VDate.countDown(new VDate(now.getTime() - day6), { overLimitDateFormat: 'dd/mm/yyyy', countDownLimit: day8 })
+        ).toBe("6 days ago")
+
+
+        now = new VDate(now.getTime() + 10);
+
+        // Future, less than a minute
+        expect(VDate.countDown(
+            new VDate(now.getTime() + sec20))
+        ).toBe("in 20 seconds")
+        expect(VDate.countDown(
+            new VDate(now.getTime() + (59 * 1_000)))
+        ).toBe("in 59 seconds")
+
+        
+        // Future, less than an hour
+        expect(
+            VDate.countDown(new VDate(now.getTime() + min1))
+            ).toBe("in 1 min")
+        expect(
+            VDate.countDown(new VDate(now.getTime() + min12))
+        ).toBe("in 12 mins")
+
+        
+        // Future, less than a day
+        expect(
+            VDate.countDown(new VDate(now.getTime() + hour1))
+        ).toBe("in 1 hour")
+        expect(
+            VDate.countDown(new VDate(now.getTime() + hour3))
+        ).toBe("in 3 hours")
+        expect(
+            VDate.countDown(new VDate(now.getTime() + hour3 + min1), { includeMinutes: true })
+        ).toBe("in 3 hours and 1 min")
+        expect(
+            VDate.countDown(new VDate(now.getTime() + hour3 + min12), { includeMinutes: true })
+        ).toBe("in 3 hours and 12 mins")
+
+
+        // Future, more than a day
+        expect(
+            VDate.countDown(new VDate(now.getTime() + day1))
+        ).toBe("in 1 day")
+        expect(
+            VDate.countDown(new VDate(now.getTime() + day4))
+        ).toBe("in 4 days")
+        expect(
+            VDate.countDown(new VDate(now.getTime() + day4 + hour1), { includeHour: true })
+        ).toBe("in 4 days and 1 hour")
+        expect(
+            VDate.countDown(new VDate(now.getTime() + day4 + hour3), { includeHour: true })
+        ).toBe("in 4 days and 3 hours")
+
+        
+        // Future, older than the limit
+        expect(
+            VDate.countDown(new VDate(now.getTime() + day6))
+        ).toBe(now.addDay(+6).formatDate())
+
+        // Future, with custom limit
+        expect(
+            VDate.countDown(new VDate(now.getTime() + day6), { countDownLimit: day8 })
+        ).toBe("in 6 days")
+
+
+        // Using a custom now
+        expect(
+            VDate.countDown(new VDate("2020-10-10"), { now: new VDate("2020-10-14") })
+        ).toBe("4 days ago")
+
+        expect(
+            VDate.countDown(new VDate("2020-10-14"), { now: new VDate("2020-10-10") })
+        ).toBe("in 4 days")
+
+    })
 })

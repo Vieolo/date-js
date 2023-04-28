@@ -1,3 +1,5 @@
+export type DateFormats = 'yyyy-mm-dd' | 'dd/mm/yyyy' | 'mm/dd/yyyy' | 'month dd, yyyy'
+
 
 /**
  * Custom extension of the Date class
@@ -177,7 +179,7 @@ export default class VDate extends Date {
 	 * @param {'yyyy-mm-dd'|'dd/mm/yyyy'|'mm/dd/yyyy'|'month dd, yyyy'} format - The desired format. default = 'yyyy-mm-dd'
 	 * @returns String
 	 */
-	formatDate(format: 'yyyy-mm-dd' | 'dd/mm/yyyy' | 'mm/dd/yyyy' | 'month dd, yyyy' = 'yyyy-mm-dd'): string {
+	formatDate(format: DateFormats = 'yyyy-mm-dd'): string {
 		let dd = this.getDate();
 		let ddString: string = dd.toString();
 
@@ -198,7 +200,7 @@ export default class VDate extends Date {
 			return `${ddString}/${mmString}/${yyyy}`;
 		} else if (format === 'mm/dd/yyyy') {
 			return `${mmString}/${ddString}/${yyyy}`;
-		} 
+		}
 		return `${VDate.monthNamesShort[this.getMonth()]} ${ddString}, ${yyyy}`;
 	}
 
@@ -216,121 +218,97 @@ export default class VDate extends Date {
 
 	/**
 	 * Formats the difference between now and the given target time.
-	 * If the given target time is before now, the given response will show the time passed. e.g. 2 days ago.
+	 * If the given target time is before now, the given result will show the time passed. e.g. 2 days ago.
+	 * If the given target time is after now, the given result will show the remaining time. e.g. in 2 days.
 	 * @param {VDate} targetTime - The time to get the countdown
-	 * @param {Number} countDownLimit - default = 432000 seconds, if the difference is more than this number of seconds, a normal date is returned
-	 * @param {Boolean} includeHour - Whether to include hours if along side the day difference in the countdown. default == false
-	 * @param {VDate} now - Default to new VDate(). Enter a date to compare to the target time instead of now
-	 * @return String - 
+	 * @return String
 	 */
-	static countDown(targetTime: VDate, countDownLimit: number = 432000, includeHour: boolean = false, includeMinutes: boolean = false, now?: VDate): string {
-		let fn = now || new VDate();
+	static countDown(
+		targetTime: VDate,
+		options?: {
+			/**
+			 * The maximum difference that would be returned as the countdown.
+			 * 
+			 * The default value is 432_000_000 (i.e. 5 days).
+			 * 
+			 * For example, if the difference between now and the target time is 4 days, the result will be 4 days ago. but
+			 * if the difference is 6 days, the target time will be formatted as usual and returned.
+			 */
+			countDownLimit?: number,
+			/** Whether to include hours if the difference is in days. e.g. 2 days and 23 hours */
+			includeHour?: boolean,
+			/** Whether to include minutes if the difference is in hours. e.g. 14 hours and 43 minutes */
+			includeMinutes?: boolean,
+			/**
+			 * By default, this function will compare the target time with the current local time. but
+			 * you can provide a specific date replacing the current time.
+			 */
+			now?: VDate,
+			/** The format of the date to be used if the difference is larger than the limit */
+			overLimitDateFormat?: DateFormats
+		}
+	): string {
+		let fn = options && options.now ? options.now : new VDate();
+
+		let big, small: VDate;
+		let type: 'past' | 'future' = "past"
+
 		if (fn.isAfter(targetTime)) {
-			let difference = (fn.getTime() - targetTime.getTime()) / 1000;
-			if (difference < 60) {
-				let d = parseInt(difference.toString());
-				return d.toString() + " seconds ago";
-
-			} else if (difference >= 60 && difference < 3600) {
-				let minutes = parseInt((difference / 60).toString());
-				if (minutes === 1) {
-					return minutes.toString() + " min ago";
-				} else {
-					return minutes.toString() + " mins ago";
-				}
-
-			} else if (difference >= 3600 && difference < 86400) {
-				let hours = parseInt((difference / 3600).toString());
-				let final = '';
-				if (hours === 1) {
-					final = hours.toString() + " hour";
-				} else {
-					final = hours.toString() + " hours";
-				}
-
-				if (includeMinutes) {
-					let minutes = parseInt(((difference % 3600) / 60).toString());
-					if (minutes > 0) {
-						if (minutes === 1) final += ` and 1 minute`
-						else final += ` and ${minutes} minutes`;
-					}
-				}
-
-				return final + " ago";
-
-			} else if (difference >= 86400 && difference < countDownLimit) {
-				let days = parseInt((difference / 86400).toString());
-				let final = '';
-				if (days === 1) {
-					final = days.toString() + " day";
-				} else {
-					final = days.toString() + " days";
-				}
-				if (includeHour) {
-					var hours = parseInt(((difference % 86400) / 3600).toString());
-					if (hours === 1) {
-						final += " and 1 hour ago";
-					} else {
-						final += " and " + hours + " hours ago";
-					}
-				} else {
-					final += ' ago';
-				}
-				return final;
-			}
+			big = fn;
+			small = targetTime
 		} else {
-			let difference = (targetTime.getTime() - fn.getTime()) / 1000;
-			if (difference < 60) {
-				let d = parseInt(difference.toString());
-				return d.toString() + " seconds";
+			type = 'future'
+			big = targetTime;
+			small = fn;
+		}
 
-			} else if (difference >= 60 && difference < 3600) {
-				let minutes = parseInt((difference / 60).toString());
-				if (minutes === 1) {
-					return minutes.toString() + " min";
-				} else {
-					return minutes.toString() + " mins";
-				}
+		/** The maximum limit of the count down in millisecond */
+		let limit = options && options.countDownLimit ? options.countDownLimit : 432_000_000
+		let result = ""
 
-			} else if (difference >= 3600 && difference < 86400) {
-				let hours = parseInt((difference / 3600).toString());
-				let final = '';
-				if (hours === 1) {
-					final = hours.toString() + " hour";
-				} else {
-					final = hours.toString() + " hours";
-				}
+		/** The different is initially in milliseconds but will be converted to seconds */
+		let difference = big.getTime() - small.getTime();
 
-				if (includeMinutes) {
-					let minutes = parseInt(((difference % 3600) / 60).toString());
-					if (minutes > 0) {
-						if (minutes === 1) final += ` and 1 minute`
-						else final += ` and ${minutes} minutes`;
-					}
-				}
+		// The difference is larget
+		if (difference > limit) return targetTime.formatDate(options && options.overLimitDateFormat ? options.overLimitDateFormat : undefined)
 
-				return final;
+		difference /= 1_000;
 
-			} else if (difference >= 86400 && difference < countDownLimit) {
-				let days = parseInt((difference / 86400).toString());
-				let final = '';
-				if (days === 1) {
-					final = days.toString() + " day";
-				} else {
-					final = days.toString() + " days";
+		if (difference < 60) { // Less than a minute
+			let d = parseInt(difference.toString());
+			result = `${d.toString()} seconds`;
+		} else if (difference >= 60 && difference < 3_600) { // Less than an hour
+			let minutes = parseInt((difference / 60).toString());
+			result = `${minutes.toString()} min${minutes === 1 ? "" : "s"}`
+		} else if (difference >= 3_600 && difference < 86_400) { // Less than a day
+			let hours = parseInt((difference / 3_600).toString());
+			result = `${hours.toString()} hour${hours === 1 ? "" : "s"}`;
+
+			if (options && options.includeMinutes) {
+				let minutes = parseInt(((difference % 3_600) / 60).toString());
+				if (minutes > 0) {
+					result = `${result} and ${minutes} min${minutes === 1 ? "" : "s"}`
 				}
-				if (includeHour) {
-					let hours = parseInt(((difference % 86400) / 3600).toString());
-					if (hours === 1) {
-						final += " and 1 hour";
-					} else {
-						final += " and " + hours + " hours";
-					}
+			}
+
+		} else if (difference >= 86_400) { // More than a day
+			let days = parseInt((difference / 86_400).toString());
+			result = `${days.toString()} day${days === 1 ? "" : "s"}`;
+
+			if (options && options.includeHour) {
+				var hours = parseInt(((difference % 86_400) / 3_600).toString());
+				if (hours > 0) {
+					result = `${result} and ${hours.toString()} hour${hours === 1 ? "" : "s"}`
 				}
-				return final;
 			}
 		}
-		return targetTime.formatDate();
+
+		// If the target time is in the past
+		if (type === 'past') {
+			return `${result} ago`
+		} else {
+			return `in ${result}`
+		}
 	}
 
 
