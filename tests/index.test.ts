@@ -498,4 +498,28 @@ describe("VDate", () => {
         ).toBe("in 4 days")
 
     })
+
+
+
+    it("Gets quarter correctly", () => {
+        expect(new VDate("2020-01-01").getQuarter()).toBe(1);
+        expect(new VDate("2020-02-01").getQuarter()).toBe(1);
+        expect(new VDate("2020-03-01").getQuarter()).toBe(1);
+        expect(new VDate("2020-03-31").getQuarter()).toBe(1);
+
+        expect(new VDate("2020-04-01").getQuarter()).toBe(2);
+        expect(new VDate("2020-05-01").getQuarter()).toBe(2);
+        expect(new VDate("2020-06-01").getQuarter()).toBe(2);
+        expect(new VDate("2020-06-30").getQuarter()).toBe(2);
+
+        expect(new VDate("2020-07-01").getQuarter()).toBe(3);
+        expect(new VDate("2020-08-01").getQuarter()).toBe(3);
+        expect(new VDate("2020-09-01").getQuarter()).toBe(3);
+        expect(new VDate("2020-09-30").getQuarter()).toBe(3);
+
+        expect(new VDate("2020-10-01").getQuarter()).toBe(4);
+        expect(new VDate("2020-11-01").getQuarter()).toBe(4);
+        expect(new VDate("2020-12-01").getQuarter()).toBe(4);
+        expect(new VDate("2020-12-31").getQuarter()).toBe(4);
+    })
 })

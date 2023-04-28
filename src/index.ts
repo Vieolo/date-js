@@ -475,6 +475,12 @@ export default class VDate extends Date {
 	}
 
 
+	/**
+	 * Returns an object containing the start, end, and the weeknumber of the date object
+	 * 
+	 * The week number is calculated based on ISO standard
+	 * @returns Week data
+	 */
 	getWeek(): { start: VDate, end: VDate, weekNumber: number } {
 		let today = new VDate(this.getTime());
 		today.setHours(0, 0, 0, 0);
@@ -504,6 +510,14 @@ export default class VDate extends Date {
 		if (dow <= 4) weekStart.setDate(simple.getDate() - simple.getDay() + 1);
 		else weekStart.setDate(simple.getDate() + 8 - simple.getDay());
 		return weekStart.getWeek();
+	}
+
+	/**
+	 * Returns the number of the quarter of the date object
+	 * @returns number
+	 */
+	getQuarter() : number {
+		return Math.ceil((this.getMonth() + 1) / 3)
 	}
 
 	/**
