@@ -1,0 +1,4 @@
+.vscode/
+tests/
+version_bump.mjs
+jest.config.js
