@@ -1,17 +1,17 @@
-# Date JS
+# VDate
 Vieolo's Custom JS Date class.
 `VDate` is an extension of the standard javascript `Date` class.
 
 ## Install
 
 ```bash
-npm install @vieolo/date
+npm install @vieolo/vdate
 ```
 
 ## Usage
 In the target package, the class can be imported as followed
 ```JS
-import VDate from '@vieolo/date';
+import VDate from '@vieolo/vdate';
 ```
 
 `VDate` is an extension of the native javascript `Date` class. So, the behavior of `VDate` is completely similar to that of native `Date`.
