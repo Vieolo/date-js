@@ -135,6 +135,9 @@ Compares the instance of `VDate` with another one.
 #### ***isBefore()***
 Compares the instance of `VDate` with another one.
 
+#### ***isOnSameDay()***
+Checks if the instance of `VDate` is on the same day as the other one
+
 #### ***isValid()***
 Checks the validity of the instance.
 

@@ -193,6 +193,11 @@ describe("VDate", () => {
 
         expect(two.isBefore(one)).toBeFalsy();
         expect(one.isAfter(two)).toBeFalsy();
+
+        expect(one.isOnSameDay(two)).toBeTruthy();
+        expect(two.isOnSameDay(one)).toBeTruthy();
+        expect(one.isOnSameDay(new VDate("2020-02-02"))).toBeFalsy();
+        expect(one.isOnSameDay(new VDate("2020-01-31"))).toBeFalsy();
     })
 
 

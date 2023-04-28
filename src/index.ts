@@ -426,6 +426,16 @@ export default class VDate extends Date {
 	}
 
 	/**
+	 * Checks if `otherDate` is on the same day as this date or not
+	 * @param {VDate} otherDate 
+	 */
+	isOnSameDay(otherDate: VDate): boolean {
+		return this.getFullYear() === otherDate.getFullYear() && 
+			this.getMonth() === otherDate.getMonth() && 
+			this.getDate() === otherDate.getDate();
+	}
+
+	/**
 	 * Checks if the date is valid or not.
 	 * Returns false if the object is 'Invalid Date' type
 	 * @returns {Boolean}
