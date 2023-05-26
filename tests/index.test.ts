@@ -1,4 +1,4 @@
-import VDate from '../src/index';
+import VDate, { DateDurationType, dateDuration } from '../src/index';
 
 describe("VDate", () => {
 
@@ -116,7 +116,6 @@ describe("VDate", () => {
     })
 
 
-
     it("Sets the properties of the date correctly", () => {
         let d = new VDate(2020, 9, 11, 14, 24, 11, 324);
 
@@ -138,7 +137,6 @@ describe("VDate", () => {
     })
 
 
-
     it("Gets time from minute count correctly", () => {
         expect(VDate.getTimeFromMinuteCount(24)).toBe("24m");
         expect(VDate.getTimeFromMinuteCount(55)).toBe("55m");
@@ -146,7 +144,6 @@ describe("VDate", () => {
         expect(VDate.getTimeFromMinuteCount(123)).toBe("2h 3m");
         expect(VDate.getTimeFromMinuteCount(143)).toBe("2h 23m");
     });
-
 
 
     it("Adds time correctly", () => {
@@ -186,7 +183,6 @@ describe("VDate", () => {
     });
 
     
-
     it("Detects the leap year correctly", () => {
         expect(new VDate("2020-01-01").isLeap()).toBeTruthy()
         expect(new VDate("2021-01-01").isLeap()).toBeFalsy()
@@ -194,7 +190,6 @@ describe("VDate", () => {
         expect(new VDate("2023-01-01").isLeap()).toBeFalsy()
         expect(new VDate("2024-01-01").isLeap()).toBeTruthy()
     })
-
 
 
     it("Compares date objects correctly", () => {
@@ -214,12 +209,10 @@ describe("VDate", () => {
     })
 
 
-
     it("Detects an invalid date correctly", () => {
         expect(new VDate("2020-13-01").isValid()).toBeFalsy();
         expect(new VDate("2020-12-01").isValid()).toBeTruthy();
     })
-
 
 
     it("Gets the number of days correctly", () => {
@@ -234,7 +227,6 @@ describe("VDate", () => {
         expect(VDate.getDaysInYear(2020)).toBe(366);
         expect(VDate.getDaysInYear(new VDate("2021-01-01"))).toBe(365);
     });
-
 
 
     it("Gets weeks correctly", () => {
@@ -376,7 +368,6 @@ describe("VDate", () => {
         expect(twoFour.start.formatDate()).toBe("2021-01-04");
         expect(twoFour.end.formatDate()).toBe("2021-01-10");
     })
-
 
 
     it("Calculates the countdown correctly", () => {
@@ -524,7 +515,6 @@ describe("VDate", () => {
     })
 
 
-
     it("Gets quarter correctly", () => {
         expect(new VDate("2020-01-01").getQuarter()).toBe(1);
         expect(new VDate("2020-02-01").getQuarter()).toBe(1);
@@ -545,5 +535,154 @@ describe("VDate", () => {
         expect(new VDate("2020-11-01").getQuarter()).toBe(4);
         expect(new VDate("2020-12-01").getQuarter()).toBe(4);
         expect(new VDate("2020-12-31").getQuarter()).toBe(4);
+    })
+
+
+    it("Calculates the differnce correctly", () => {
+        let one = new VDate(2020, 1, 3, 14, 22, 18, 443);
+        let two = new VDate(2020, 1, 5, 22, 24, 44, 463);
+
+        let diff = two.getTime() - one.getTime()
+        let daysInMil = 2 * 86_400_000;
+        let hours = Math.floor(daysInMil / 3_600_000) + 8;
+        let minutes = (hours * 60) + 2;
+
+        expect(dateDuration(one, two)).toEqual({
+            milliseconds: diff,            
+		    seconds: Math.floor(diff / 1_000),
+		    minutes: minutes,
+		    hours: hours,
+		    days: 2, 
+		    months: 0, 
+		    years: 0, 
+        } as DateDurationType)
+
+        expect(dateDuration(one, two, true)).toEqual({
+            milliseconds: 20,            
+		    seconds: 26,
+		    minutes: 2,
+		    hours: 8,
+		    days: 2, 
+		    months: 0, 
+		    years: 0, 
+        } as DateDurationType)
+
+
+        one = new VDate(2020, 1, 3, 14, 22, 18, 443);
+        two = new VDate(2022, 4, 14, 2, 16, 44, 423);
+
+        diff = two.getTime() - one.getTime()
+        daysInMil = 830 * 86_400_000;
+        hours = Math.floor(daysInMil / 3_600_000) + 11;
+        minutes = (hours * 60) + 54;
+
+        expect(dateDuration(one, two)).toEqual({
+            milliseconds: diff,            
+		    seconds: Math.floor(diff / 1_000),
+		    minutes: minutes,
+		    hours: hours,
+		    days: 830, 
+		    months: 27, 
+		    years: 2, 
+        } as DateDurationType)
+
+        expect(dateDuration(one, two, true)).toEqual({
+            milliseconds: 980,            
+		    seconds: 25,
+		    minutes: 54,
+		    hours: 11,
+		    days: 10, 
+		    months: 3, 
+		    years: 2, 
+        } as DateDurationType)
+
+
+        two = new VDate(2020, 1, 29, 12, 16, 44, 423);
+        one = new VDate(2022, 0, 11, 3, 22, 18, 443);
+
+        diff = one.getTime() - two.getTime()
+        daysInMil = 681 * 86_400_000;
+        hours = Math.floor(daysInMil / 3_600_000) + 15;
+        minutes = (hours * 60) + 5;
+
+        expect(dateDuration(one, two)).toEqual({
+            milliseconds: diff,            
+		    seconds: Math.floor(diff / 1_000),
+		    minutes: minutes,
+		    hours: hours,
+		    days: 681, 
+		    months: 22, 
+		    years: 1, 
+        } as DateDurationType)
+
+        expect(dateDuration(one, two, true)).toEqual({
+            milliseconds: 20,            
+		    seconds: 34,
+		    minutes: 5,
+		    hours: 15,
+		    days: 12, 
+		    months: 10, 
+		    years: 1, 
+        } as DateDurationType)
+
+
+
+        one = new VDate(2020, 2, 21, 2, 10, 10, 100);
+        two = new VDate(2020, 4, 19, 12, 20, 20, 200);
+
+        diff = two.getTime() - one.getTime()
+        daysInMil = 59 * 86_400_000;
+        hours = Math.floor(daysInMil / 3_600_000) + 10;
+        minutes = (hours * 60) + 10;
+
+        expect(dateDuration(one, two)).toEqual({
+            milliseconds: diff,            
+		    seconds: Math.floor(diff / 1_000),
+		    minutes: minutes,
+		    hours: hours,
+		    days: 59, 
+		    months: 1, 
+		    years: 0, 
+        } as DateDurationType)
+
+        expect(dateDuration(one, two, true)).toEqual({
+            milliseconds: 100,            
+		    seconds: 10,
+		    minutes: 10,
+		    hours: 10,
+		    days: 28, 
+		    months: 1, 
+		    years: 0, 
+        } as DateDurationType)
+
+
+
+        one = new VDate(2021, 1, 25, 2, 10, 10, 100);
+        two = new VDate(2021, 2, 3, 12, 20, 20, 200);
+
+        diff = two.getTime() - one.getTime()
+        daysInMil = 6 * 86_400_000;
+        hours = Math.floor(daysInMil / 3_600_000) + 10;
+        minutes = (hours * 60) + 10;
+
+        expect(dateDuration(one, two)).toEqual({
+            milliseconds: diff,            
+		    seconds: Math.floor(diff / 1_000),
+		    minutes: minutes,
+		    hours: hours,
+		    days: 6, 
+		    months: 0, 
+		    years: 0, 
+        } as DateDurationType)
+
+        expect(dateDuration(one, two, true)).toEqual({
+            milliseconds: 100,            
+		    seconds: 10,
+		    minutes: 10,
+		    hours: 10,
+		    days: 6, 
+		    months: 0, 
+		    years: 0, 
+        } as DateDurationType)
     })
 })

@@ -435,8 +435,8 @@ export default class VDate extends Date {
 	 * @param {VDate} otherDate 
 	 */
 	isOnSameDay(otherDate: VDate): boolean {
-		return this.getFullYear() === otherDate.getFullYear() && 
-			this.getMonth() === otherDate.getMonth() && 
+		return this.getFullYear() === otherDate.getFullYear() &&
+			this.getMonth() === otherDate.getMonth() &&
 			this.getDate() === otherDate.getDate();
 	}
 
@@ -460,9 +460,9 @@ export default class VDate extends Date {
 	 * For example, at 1:15 am, 75 minutes have passed in today
 	 * @returns Number
 	 */
-	static getMinutesInToday(): number {
-		var now = new VDate();
-		var start_today = new VDate().setToDateStart();
+	static getMinutesInToday(date?: VDate | Date): number {
+		var now = date ? new VDate(date.getTime()) : new VDate();
+		var start_today = new VDate(now.getTime()).setToDateStart();
 		return parseInt(((now.getTime() - start_today.getTime()) / 60000).toString());
 	}
 
@@ -481,11 +481,11 @@ export default class VDate extends Date {
 
 	/**
 	 * Returns the number of days that have passed so far in the given year.
-	 * @param {VDate} [date] the given date (defualt=today)
+	 * @param {VDate | Date} [date] the given date (defualt=today)
 	 * @returns Number
 	 */
-	static getDayOfYear(date: VDate): number {
-		let today = date;
+	static getDayOfYear(date?: VDate | Date): number {
+		let today = date || new VDate();
 		return Math.ceil((today.getTime() - new VDate(today.getFullYear(), 0, 1).getTime()) / 86400000);
 	}
 
@@ -496,12 +496,12 @@ export default class VDate extends Date {
 	 * @param {Date|Number} year the given year (default=current year)
 	 * @returns Number
 	 */
-	static getDaysInYear(year: VDate | number) {
+	static getDaysInYear(year: VDate | Date | number): number {
 		let date: VDate;
 		if (typeof year === 'number') {
 			date = new VDate(year, 1, 1);
 		} else {
-			date = year;
+			date = new VDate(year.getTime());
 		}
 		return date.isLeap() ? 366 : 365;
 	}
@@ -548,7 +548,7 @@ export default class VDate extends Date {
 	 * Returns the number of the quarter of the date object
 	 * @returns number
 	 */
-	getQuarter() : number {
+	getQuarter(): number {
 		return Math.ceil((this.getMonth() + 1) / 3)
 	}
 
@@ -571,4 +571,70 @@ export default class VDate extends Date {
 	}
 
 	//#endregion
+}
+
+
+
+export type DateDurationType = {
+	milliseconds: number,
+	seconds: number,
+	minutes: number,
+	hours: number,
+	days: number,
+	months: number,
+	years: number
+}
+
+
+export function dateDuration(one: VDate | Date, two: VDate | Date, normalize?: boolean): DateDurationType {
+	let first;
+	let second;
+	if (one.getTime() > two.getTime()) {
+		second = one;
+		first = two;
+	} else {
+		first = one;
+		second = two;
+	}
+	let diff = second.getTime() - first.getTime()
+
+	if (normalize) {
+		let yd = second.getFullYear() - first.getFullYear();
+
+		let md = second.getMonth() - first.getMonth();
+		if (md < 0) {
+			md += 12;
+			yd -= 1;
+		}
+
+		let dd = second.getDate() - first.getDate();
+		if (dd < 0) {			
+			dd = (VDate.getDaysInMonth(second.getFullYear(), second.getMonth() - 1) + second.getDate()) - first.getDate()
+			md -= 1;
+		}
+
+		if (VDate.getMinutesInToday(first) > VDate.getMinutesInToday(second)) {
+			dd -= 1;
+		}
+
+		return {
+			milliseconds: diff % 1_000,
+			seconds: Math.floor((diff % 60_000) / 1_000),
+			minutes: Math.floor((diff % 3_600_000) / 60_000),
+			hours: Math.floor((diff % 86_400_000) / 3_600_000),
+			days: dd,
+			months: md,
+			years: yd,
+		}
+	}
+
+	return {
+		milliseconds: diff,
+		seconds: Math.floor(diff / 1_000),
+		minutes: Math.floor(diff / 60_000),
+		hours: Math.floor(diff / 3_600_000),
+		days: Math.floor(diff / 86_400_000),
+		months: Math.floor(diff / 2_592_000_000),
+		years: Math.floor(diff / 31_536_000_000),
+	}
 }
