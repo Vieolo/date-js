@@ -458,9 +458,21 @@ export default class VDate extends Date {
 	/**
 	 * Gets the number of minutes passed in today as of now.
 	 * For example, at 1:15 am, 75 minutes have passed in today
+	 * @deprecated use `getMinutesInDay` instead
 	 * @returns Number
 	 */
 	static getMinutesInToday(date?: VDate | Date): number {
+		var now = date ? new VDate(date.getTime()) : new VDate();
+		var start_today = new VDate(now.getTime()).setToDateStart();
+		return parseInt(((now.getTime() - start_today.getTime()) / 60000).toString());
+	}
+
+	/**
+	 * Gets the number of minutes passed in a given day as of now. (defaults to today)
+	 * For example, at 1:15 am, 75 minutes have passed in the day
+	 * @returns Number
+	 */
+	static getMinutesInDay(date?: VDate | Date): number {
 		var now = date ? new VDate(date.getTime()) : new VDate();
 		var start_today = new VDate(now.getTime()).setToDateStart();
 		return parseInt(((now.getTime() - start_today.getTime()) / 60000).toString());
@@ -586,6 +598,15 @@ export type DateDurationType = {
 }
 
 
+
+/**
+ * Calculates the difference between two date objects and returns a duration object.
+ * @param one The first date
+ * @param two The second date
+ * @param normalize If normalize is false, the difference is separately calculated for every time frame. For example, a duration of 1 day will be presented as 1 day, 24 hours, 1440 minutes and 
+ * so on. However, a normalized duration will make it human readable. So, a duration of 25 hours will be presented as 1 day and 1 hour.
+ * @returns DateDurationType
+ */
 export function dateDuration(one: VDate | Date, two: VDate | Date, normalize?: boolean): DateDurationType {
 	let first;
 	let second;
@@ -613,7 +634,7 @@ export function dateDuration(one: VDate | Date, two: VDate | Date, normalize?: b
 			md -= 1;
 		}
 
-		if (VDate.getMinutesInToday(first) > VDate.getMinutesInToday(second)) {
+		if (VDate.getMinutesInDay(first) > VDate.getMinutesInDay(second)) {
 			dd -= 1;
 		}
 
