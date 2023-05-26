@@ -1,6 +1,6 @@
 {
   "name": "@vieolo/vdate",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "Vieolo's Custom JS Date class",
   "main": "dist/index.js",
   "scripts": {
@@ -12,7 +12,7 @@
     "url": "git+https://github.com/Vieolo/date-js.git"
   },
   "author": "Vieolo",
-  "license": "UNLICENSED",
+  "license": "MIT-0",
   "bugs": {
     "url": "https://github.com/Vieolo/date-js/issues"
   },

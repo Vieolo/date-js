@@ -1,7 +1,13 @@
 # Change Log
 
+## 2.1.0 (2023-05-26)
+- Added `dateDuration` function ([#6](https://github.com/Vieolo/date-js/issues/6))
+
+#### Deprecation
+- Deprecated `getMinutesInToday`. use `getMinutesInDay` instead.
+
 ## 2.0.1 (2023-04-29)
 - Added MIT license
 
 ## 2.0.0 (2023-04-29)
-Initial public release
+- Initial public release
