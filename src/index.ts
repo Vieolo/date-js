@@ -1,4 +1,12 @@
-export type DateFormats = 'yyyy-mm-dd' | 'dd/mm/yyyy' | 'mm/dd/yyyy' | "dd.mm.yyyy" | 'month dd, yyyy' | 'mon dd, yyyy'
+export type DateFormats = 
+	'yyyy-mm-dd' | 
+	'yyyy.mm.dd' | 
+	'dd/mm/yyyy' | 
+	'dd-mm-yyyy' | 
+	"dd.mm.yyyy" | 
+	'mm/dd/yyyy' | 
+	'month dd, yyyy' | 
+	'mon dd, yyyy'
 
 
 /**
@@ -195,7 +203,7 @@ export default class VDate extends Date {
 			mmString = '0' + mm.toString();
 		}
 		if (format === 'yyyy-mm-dd') {
-			return yyyy + "-" + mmString + "-" + ddString;
+			return `${yyyy}-${mmString}-${ddString}`;
 		} else if (format === 'dd/mm/yyyy') {
 			return `${ddString}/${mmString}/${yyyy}`;
 		} else if (format === 'mm/dd/yyyy') {
@@ -204,6 +212,10 @@ export default class VDate extends Date {
 			return `${ddString}.${mmString}.${yyyy}`;
 		} else if (format === "month dd, yyyy") {
 			return `${VDate.monthNamesLong[this.getMonth()]} ${ddString}, ${yyyy}`;
+		} else if (format === 'dd-mm-yyyy') {
+			return `${ddString}-${mmString}-${yyyy}`;
+		} else if (format === 'yyyy.mm.dd') {
+			return `${yyyy}.${mmString}.${ddString}`;
 		}
 		return `${VDate.monthNamesShort[this.getMonth()]} ${ddString}, ${yyyy}`;
 	}
