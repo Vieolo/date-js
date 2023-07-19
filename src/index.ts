@@ -262,7 +262,11 @@ export default class VDate extends Date {
 			 */
 			now?: VDate,
 			/** The format of the date to be used if the difference is larger than the limit */
-			overLimitDateFormat?: DateFormats
+			overLimitDateFormat?: DateFormats,
+			/** Whether to include the time if the difference is larger than the limit, default is false */	
+			includeOverLimitTime?: boolean,
+			/** Whether to show the time in 12 hour format, default is false */
+			overLimitTimeAMPM?: boolean,
 		}
 	): string {
 		let fn = options && options.now ? options.now : new VDate();
@@ -287,7 +291,13 @@ export default class VDate extends Date {
 		let difference = big.getTime() - small.getTime();
 
 		// The difference is larget
-		if (difference > limit) return targetTime.formatDate(options && options.overLimitDateFormat ? options.overLimitDateFormat : undefined)
+		if (difference > limit) {
+			let f = options && options.overLimitDateFormat ? options.overLimitDateFormat : undefined;
+			if (options && options.includeOverLimitTime) {
+				return targetTime.formatDateTime(f, options.overLimitTimeAMPM)
+			}
+			return targetTime.formatDate(f)
+		}
 
 		difference /= 1_000;
 

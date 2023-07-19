@@ -438,6 +438,14 @@ describe("VDate", () => {
             VDate.countDown(new VDate(now.getTime() - day6), { overLimitDateFormat: 'dd/mm/yyyy' })
         ).toBe(now.addDay(-6).formatDate("dd/mm/yyyy"))
 
+        expect(
+            VDate.countDown(new VDate(now.getTime() - day6), { overLimitDateFormat: 'dd/mm/yyyy', includeOverLimitTime: true })
+        ).toBe(now.addDay(-6).formatDateTime("dd/mm/yyyy"))
+
+        expect(
+            VDate.countDown(new VDate(now.getTime() - day6), { overLimitDateFormat: 'dd/mm/yyyy', includeOverLimitTime: true, overLimitTimeAMPM: true })
+        ).toBe(now.addDay(-6).formatDateTime("dd/mm/yyyy", true))
+
         // Past, with custom limit
         expect(
             VDate.countDown(new VDate(now.getTime() - day6), { overLimitDateFormat: 'dd/mm/yyyy', countDownLimit: day8 })
