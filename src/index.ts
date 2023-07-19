@@ -1,4 +1,12 @@
-export type DateFormats = 'yyyy-mm-dd' | 'dd/mm/yyyy' | 'mm/dd/yyyy' | "dd.mm.yyyy" | 'month dd, yyyy' | 'mon dd, yyyy'
+export type DateFormats = 
+	'yyyy-mm-dd' | 
+	'yyyy.mm.dd' | 
+	'dd/mm/yyyy' | 
+	'dd-mm-yyyy' | 
+	"dd.mm.yyyy" | 
+	'mm/dd/yyyy' | 
+	'month dd, yyyy' | 
+	'mon dd, yyyy'
 
 
 /**
@@ -195,7 +203,7 @@ export default class VDate extends Date {
 			mmString = '0' + mm.toString();
 		}
 		if (format === 'yyyy-mm-dd') {
-			return yyyy + "-" + mmString + "-" + ddString;
+			return `${yyyy}-${mmString}-${ddString}`;
 		} else if (format === 'dd/mm/yyyy') {
 			return `${ddString}/${mmString}/${yyyy}`;
 		} else if (format === 'mm/dd/yyyy') {
@@ -204,6 +212,10 @@ export default class VDate extends Date {
 			return `${ddString}.${mmString}.${yyyy}`;
 		} else if (format === "month dd, yyyy") {
 			return `${VDate.monthNamesLong[this.getMonth()]} ${ddString}, ${yyyy}`;
+		} else if (format === 'dd-mm-yyyy') {
+			return `${ddString}-${mmString}-${yyyy}`;
+		} else if (format === 'yyyy.mm.dd') {
+			return `${yyyy}.${mmString}.${ddString}`;
 		}
 		return `${VDate.monthNamesShort[this.getMonth()]} ${ddString}, ${yyyy}`;
 	}
@@ -250,7 +262,11 @@ export default class VDate extends Date {
 			 */
 			now?: VDate,
 			/** The format of the date to be used if the difference is larger than the limit */
-			overLimitDateFormat?: DateFormats
+			overLimitDateFormat?: DateFormats,
+			/** Whether to include the time if the difference is larger than the limit, default is false */	
+			includeOverLimitTime?: boolean,
+			/** Whether to show the time in 12 hour format, default is false */
+			overLimitTimeAMPM?: boolean,
 		}
 	): string {
 		let fn = options && options.now ? options.now : new VDate();
@@ -275,7 +291,13 @@ export default class VDate extends Date {
 		let difference = big.getTime() - small.getTime();
 
 		// The difference is larget
-		if (difference > limit) return targetTime.formatDate(options && options.overLimitDateFormat ? options.overLimitDateFormat : undefined)
+		if (difference > limit) {
+			let f = options && options.overLimitDateFormat ? options.overLimitDateFormat : undefined;
+			if (options && options.includeOverLimitTime) {
+				return targetTime.formatDateTime(f, options.overLimitTimeAMPM)
+			}
+			return targetTime.formatDate(f)
+		}
 
 		difference /= 1_000;
 
