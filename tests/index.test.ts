@@ -83,7 +83,9 @@ describe("VDate", () => {
       
         expect(d2.formatDate()).toBe("2020-03-04");
         expect(d2.formatDate("yyyy-mm-dd")).toBe("2020-03-04");
+        expect(d2.formatDate("yyyy.mm.dd")).toBe("2020.03.04");
         expect(d2.formatDate("dd/mm/yyyy")).toBe("04/03/2020");
+        expect(d2.formatDate("dd-mm-yyyy")).toBe("04-03-2020");
         expect(d2.formatDate("dd.mm.yyyy")).toBe("04.03.2020");
         expect(d2.formatDate("mm/dd/yyyy")).toBe("03/04/2020");
         expect(d2.formatDate("mon dd, yyyy")).toBe("Mar 04, 2020");
@@ -435,6 +437,14 @@ describe("VDate", () => {
         expect(
             VDate.countDown(new VDate(now.getTime() - day6), { overLimitDateFormat: 'dd/mm/yyyy' })
         ).toBe(now.addDay(-6).formatDate("dd/mm/yyyy"))
+
+        expect(
+            VDate.countDown(new VDate(now.getTime() - day6), { overLimitDateFormat: 'dd/mm/yyyy', includeOverLimitTime: true })
+        ).toBe(now.addDay(-6).formatDateTime("dd/mm/yyyy"))
+
+        expect(
+            VDate.countDown(new VDate(now.getTime() - day6), { overLimitDateFormat: 'dd/mm/yyyy', includeOverLimitTime: true, overLimitTimeAMPM: true })
+        ).toBe(now.addDay(-6).formatDateTime("dd/mm/yyyy", true))
 
         // Past, with custom limit
         expect(
