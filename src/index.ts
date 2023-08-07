@@ -399,7 +399,10 @@ export default class VDate extends Date {
 	 * @returns VDate - Returns a new instance of `VDate`
 	 */
 	addDay(change: number): VDate {
-		return new VDate(this.getTime() + (change * 86_400_000));
+		let t = new VDate(this.getTime())
+		t.setDate(t.getDate() + change);
+
+		return t;
 	}
 
 
