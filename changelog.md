@@ -1,13 +1,7 @@
 # Change Log
 
-## 2.2.1 (2023-08-07)
-- TODO: add the changes
-
-#### Deprecation
-- (Optional) deprecations in this version
-
-#### Breaking Changes
-- (Optional) breaking changes in this version
+## 2.2.2 (2023-08-07)
+- Fixed the `addDay` function
 
 ## 2.2.0 (2023-07-19)
 - Extended the date format types
