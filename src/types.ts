@@ -1,3 +1,5 @@
+import type { VDate } from "./date"
+
 export type DateFormats = 
 	'yyyy-mm-dd' | 
 	'yyyy.mm.dd' | 
@@ -19,3 +21,8 @@ export type DateDurationType = {
 	years: number
 }
     
+export type Week = { 
+	start: VDate, 
+	end: VDate, 
+	weekNumber: number 
+}

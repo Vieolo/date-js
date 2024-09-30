@@ -1,4 +1,4 @@
-import type { DateFormats } from './types';
+import type { DateFormats, Week } from './types';
 
 
 /**
@@ -542,7 +542,7 @@ export class VDate extends Date {
 	 * The week number is calculated based on ISO standard
 	 * @returns Week data
 	 */
-	getWeek(): { start: VDate, end: VDate, weekNumber: number } {
+	getWeek(): Week {
 		let today = new VDate(this.getTime());
 		today.setHours(0, 0, 0, 0);
 		// Thursday in current week decides the year.
@@ -564,7 +564,7 @@ export class VDate extends Date {
 	 * @param weekNumber The number of the week
 	 * @param year The year containing the week
 	 */
-	static getWeekByWeekNumber(weekNumber: number, year: number): { start: VDate, end: VDate, weekNumber: number } {
+	static getWeekByWeekNumber(weekNumber: number, year: number): Week {
 		let simple = new VDate(VDate.UTC(year, 0, 1 + (weekNumber - 1) * 7));
 		let dow = simple.getDay();
 		let weekStart = simple;
