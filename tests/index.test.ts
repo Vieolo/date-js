@@ -608,11 +608,11 @@ describe("VDate", () => {
         } as DateDurationType)
 
 
-        one = new VDate(2020, 1, 3, 14, 22, 18, 443);
-        two = new VDate(2022, 4, 14, 2, 16, 44, 423);
+        one = new VDate(2022, 1, 3, 14, 22, 18, 443);
+        two = new VDate(2022, 2, 14, 2, 16, 44, 423);
 
         diff = two.getTime() - one.getTime()
-        daysInMil = 830 * 86_400_000;
+        daysInMil = 38 * 86_400_000;
         hours = Math.floor(daysInMil / 3_600_000) + 11;
         minutes = (hours * 60) + 54;
 
@@ -621,9 +621,9 @@ describe("VDate", () => {
 		    seconds: Math.floor(diff / 1_000),
 		    minutes: minutes,
 		    hours: hours,
-		    days: 830, 
-		    months: 27, 
-		    years: 2, 
+		    days: 38, 
+		    months: 1, 
+		    years: 0, 
         } as DateDurationType)
 
         expect(dateDuration(one, two, true)).toEqual({
@@ -632,43 +632,43 @@ describe("VDate", () => {
 		    minutes: 54,
 		    hours: 11,
 		    days: 10, 
-		    months: 3, 
-		    years: 2, 
+		    months: 1, 
+		    years: 0, 
         } as DateDurationType)
 
 
-        two = new VDate(2020, 1, 29, 12, 16, 44, 423);
-        one = new VDate(2022, 0, 11, 3, 22, 18, 443);
+        two = new VDate(2022, 0, 11, 3, 22, 18, 443);
+        one = new VDate(2022, 1, 29, 12, 16, 44, 423);
 
         diff = one.getTime() - two.getTime()
-        daysInMil = 681 * 86_400_000;
-        hours = Math.floor(daysInMil / 3_600_000) + 15;
-        minutes = (hours * 60) + 5;
+        daysInMil = 49 * 86_400_000;
+        hours = Math.floor(daysInMil / 3_600_000) + 8;
+        minutes = (hours * 60) + 54;
 
         expect(dateDuration(one, two)).toEqual({
             milliseconds: diff,            
 		    seconds: Math.floor(diff / 1_000),
 		    minutes: minutes,
 		    hours: hours,
-		    days: 681, 
-		    months: 22, 
-		    years: 1, 
+		    days: 49, 
+		    months: 1, 
+		    years: 0,
         } as DateDurationType)
 
         expect(dateDuration(one, two, true)).toEqual({
-            milliseconds: 20,            
-		    seconds: 34,
-		    minutes: 5,
-		    hours: 15,
-		    days: 12, 
-		    months: 10, 
-		    years: 1, 
+            milliseconds: 980,            
+		    seconds: 25,
+		    minutes: 54,
+		    hours: 8,
+		    days: 18, 
+		    months: 1, 
+		    years: 0, 
         } as DateDurationType)
 
 
 
-        one = new VDate(2020, 2, 21, 2, 10, 10, 100);
-        two = new VDate(2020, 4, 19, 12, 20, 20, 200);
+        one = new VDate(2020, 4, 21, 2, 10, 10, 100);
+        two = new VDate(2020, 6, 19, 12, 20, 20, 200);
 
         diff = two.getTime() - one.getTime()
         daysInMil = 59 * 86_400_000;
