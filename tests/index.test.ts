@@ -50,10 +50,18 @@ describe("VDate", () => {
         expect(new VDate("2020-10-10").getMonthName()).toBe(VDate.monthNamesLong[9])
         expect(new VDate("2020-10-10").getMonthName("long")).toBe(VDate.monthNamesLong[9])
         expect(new VDate("2020-10-10").getMonthName("short")).toBe(VDate.monthNamesShort[9])
+        expect(new VDate("2020-10-10").getMonthName("long", "EN")).toBe(VDate.monthNamesLong[9])
+        expect(new VDate("2020-10-10").getMonthName("short", "EN")).toBe(VDate.monthNamesShort[9])
+        expect(new VDate("2020-10-10").getMonthName("long", "NL")).toBe("Oktober")
+        expect(new VDate("2020-10-10").getMonthName("short", "NL")).toBe("Okt")
 
         expect(new VDate("2023-04-28").getDayName()).toBe(VDate.weekDayLong[5])
         expect(new VDate("2023-04-28").getDayName("long")).toBe(VDate.weekDayLong[5])
         expect(new VDate("2023-04-28").getDayName("short")).toBe(VDate.weekDayShort[5])
+        expect(new VDate("2023-04-28").getDayName("long", "EN")).toBe(VDate.weekDayLong[5])
+        expect(new VDate("2023-04-28").getDayName("short", "EN")).toBe(VDate.weekDayShort[5])
+        expect(new VDate("2023-04-28").getDayName("long", "NL")).toBe("Vrijdag")
+        expect(new VDate("2023-04-28").getDayName("short", "NL")).toBe("Vr")
 
     })
 
@@ -67,11 +75,25 @@ describe("VDate", () => {
         expect(d.formatMonth()).toBe("October 2020");
         expect(d.formatMonth('long')).toBe("October 2020");
         expect(d.formatMonth('short')).toBe("Oct 2020");
+        expect(d.formatMonth('long', "EN")).toBe("October 2020");
+        expect(d.formatMonth('short', "EN")).toBe("Oct 2020");
+        expect(d.formatMonth('long', "DE")).toBe("Oktober 2020");
+        expect(d.formatMonth('short', "DE")).toBe("Okt 2020");
         
         expect(d.formatDateTime()).toBe("Oct 11, 2020 14:24");
         expect(d2.formatDateTime()).toBe("Mar 04, 2020 05:04");
         expect(d3.formatDateTime()).toBe("Jan 01, 2020 12:30");
         expect(d4.formatDateTime()).toBe("Jan 20, 2020 00:00");
+
+        expect(d.formatDateTime(undefined, undefined, "EN")).toBe("Oct 11, 2020 14:24");
+        expect(d2.formatDateTime(undefined, undefined, "EN")).toBe("Mar 04, 2020 05:04");
+        expect(d3.formatDateTime(undefined, undefined, "EN")).toBe("Jan 01, 2020 12:30");
+        expect(d4.formatDateTime(undefined, undefined, "EN")).toBe("Jan 20, 2020 00:00");
+
+        expect(d.formatDateTime(undefined, undefined, "NL")).toBe("Okt 11, 2020 14:24");
+        expect(d2.formatDateTime(undefined, undefined, "NL")).toBe("Mrt 04, 2020 05:04");
+        expect(d3.formatDateTime(undefined, undefined, "NL")).toBe("Jan 01, 2020 12:30");
+        expect(d4.formatDateTime(undefined, undefined, "NL")).toBe("Jan 20, 2020 00:00");
         
         expect(d.formatDate()).toBe("2020-10-11");
         expect(d.formatDate("yyyy-mm-dd")).toBe("2020-10-11");
@@ -80,6 +102,10 @@ describe("VDate", () => {
         expect(d.formatDate("mm/dd/yyyy")).toBe("10/11/2020");
         expect(d.formatDate("mon dd, yyyy")).toBe("Oct 11, 2020");
         expect(d.formatDate("month dd, yyyy")).toBe("October 11, 2020");
+        expect(d.formatDate("mon dd, yyyy", "EN")).toBe("Oct 11, 2020");
+        expect(d.formatDate("month dd, yyyy", "EN")).toBe("October 11, 2020");
+        expect(d.formatDate("mon dd, yyyy", "NL")).toBe("Okt 11, 2020");
+        expect(d.formatDate("month dd, yyyy", "NL")).toBe("Oktober 11, 2020");
       
         expect(d2.formatDate()).toBe("2020-03-04");
         expect(d2.formatDate("yyyy-mm-dd")).toBe("2020-03-04");
@@ -90,6 +116,10 @@ describe("VDate", () => {
         expect(d2.formatDate("mm/dd/yyyy")).toBe("03/04/2020");
         expect(d2.formatDate("mon dd, yyyy")).toBe("Mar 04, 2020");
         expect(d2.formatDate("month dd, yyyy")).toBe("March 04, 2020");
+        expect(d2.formatDate("mon dd, yyyy", "EN")).toBe("Mar 04, 2020");
+        expect(d2.formatDate("month dd, yyyy", "EN")).toBe("March 04, 2020");
+        expect(d2.formatDate("mon dd, yyyy", "NL")).toBe("Mrt 04, 2020");
+        expect(d2.formatDate("month dd, yyyy", "NL")).toBe("Maart 04, 2020");
       
         expect(d3.formatDate()).toBe("2020-01-01");
         expect(d3.formatDate("yyyy-mm-dd")).toBe("2020-01-01");
@@ -578,11 +608,11 @@ describe("VDate", () => {
         } as DateDurationType)
 
 
-        one = new VDate(2020, 1, 3, 14, 22, 18, 443);
-        two = new VDate(2022, 4, 14, 2, 16, 44, 423);
+        one = new VDate(2022, 1, 3, 14, 22, 18, 443);
+        two = new VDate(2022, 2, 14, 2, 16, 44, 423);
 
         diff = two.getTime() - one.getTime()
-        daysInMil = 830 * 86_400_000;
+        daysInMil = 38 * 86_400_000;
         hours = Math.floor(daysInMil / 3_600_000) + 11;
         minutes = (hours * 60) + 54;
 
@@ -591,9 +621,9 @@ describe("VDate", () => {
 		    seconds: Math.floor(diff / 1_000),
 		    minutes: minutes,
 		    hours: hours,
-		    days: 830, 
-		    months: 27, 
-		    years: 2, 
+		    days: 38, 
+		    months: 1, 
+		    years: 0, 
         } as DateDurationType)
 
         expect(dateDuration(one, two, true)).toEqual({
@@ -602,43 +632,43 @@ describe("VDate", () => {
 		    minutes: 54,
 		    hours: 11,
 		    days: 10, 
-		    months: 3, 
-		    years: 2, 
+		    months: 1, 
+		    years: 0, 
         } as DateDurationType)
 
 
-        two = new VDate(2020, 1, 29, 12, 16, 44, 423);
-        one = new VDate(2022, 0, 11, 3, 22, 18, 443);
+        two = new VDate(2022, 0, 11, 3, 22, 18, 443);
+        one = new VDate(2022, 1, 29, 12, 16, 44, 423);
 
         diff = one.getTime() - two.getTime()
-        daysInMil = 681 * 86_400_000;
-        hours = Math.floor(daysInMil / 3_600_000) + 15;
-        minutes = (hours * 60) + 5;
+        daysInMil = 49 * 86_400_000;
+        hours = Math.floor(daysInMil / 3_600_000) + 8;
+        minutes = (hours * 60) + 54;
 
         expect(dateDuration(one, two)).toEqual({
             milliseconds: diff,            
 		    seconds: Math.floor(diff / 1_000),
 		    minutes: minutes,
 		    hours: hours,
-		    days: 681, 
-		    months: 22, 
-		    years: 1, 
+		    days: 49, 
+		    months: 1, 
+		    years: 0,
         } as DateDurationType)
 
         expect(dateDuration(one, two, true)).toEqual({
-            milliseconds: 20,            
-		    seconds: 34,
-		    minutes: 5,
-		    hours: 15,
-		    days: 12, 
-		    months: 10, 
-		    years: 1, 
+            milliseconds: 980,            
+		    seconds: 25,
+		    minutes: 54,
+		    hours: 8,
+		    days: 18, 
+		    months: 1, 
+		    years: 0, 
         } as DateDurationType)
 
 
 
-        one = new VDate(2020, 2, 21, 2, 10, 10, 100);
-        two = new VDate(2020, 4, 19, 12, 20, 20, 200);
+        one = new VDate(2020, 4, 21, 2, 10, 10, 100);
+        two = new VDate(2020, 6, 19, 12, 20, 20, 200);
 
         diff = two.getTime() - one.getTime()
         daysInMil = 59 * 86_400_000;

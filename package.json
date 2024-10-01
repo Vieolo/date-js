@@ -1,8 +1,12 @@
 {
   "name": "@vieolo/vdate",
-  "version": "2.2.2",
+  "version": "2.3.0",
   "description": "Vieolo's Custom JS Date class",
   "main": "dist/index.js",
+  "keywords": [
+    "date",
+    "time"
+  ],
   "scripts": {
     "test": "jest --runInBand",
     "build": "npx tsc"

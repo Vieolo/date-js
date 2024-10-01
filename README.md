@@ -111,7 +111,7 @@ let yearEnd = new VDate().setToYearEnd();
 Formats the time of the `VDate` instance. e.g. 10:25 am
 
 ##### `formatDate()`
-Formats the date of the `VDate` instance. The available formats are:
+Formats the date of the `VDate` instance. You can pass the language to get the localized name of the month. The available formats are:
 
 - `yyyy-mm-dd`      : 2022-02-24 (default)
 - `dd/mm/yyyy`      : 24/02/2022
@@ -126,10 +126,10 @@ let two = new VDate().formatDate("dd/mm/yyyy"); // 25/10/2020
 ```
 
 ##### `formatDateTime()`
-Formats the date and time of the `VDate` instance. e.g. 20/10/2020 10:25 am
+Formats the date and time of the `VDate` instance. You can pass the language to get the localized name of the month. e.g. 20/10/2020 10:25 am
 
 ##### `formatMonth()`
-Formats the month and year of the `VDate` instance. e.g. June 2019
+Formats the month and year of the `VDate` instance. You can pass the language to get the localized name of the month. e.g. June 2019
 
 
 ##### `addSecond()`
@@ -173,10 +173,10 @@ Gets the data of the week of the instance. The return object contains the follow
 - weekNumber: number -> the number of the week in the year (Based on ISO)
 
 ##### `getMonthName()`
-Gets the short or long format of the name of the month (default: long) in English
+Gets the short or long format of the name of the month (default: long). You can set the language to get the name of the month in the target language (default: "EN")
 
 ##### `getDayName()`
-Gets the short or long format of the name of the weekday (default: long) in English
+Gets the short or long format of the name of the weekday (default: long) You can set the language to get the name of the weekday in the target language (default: "EN")
 
 ##### `getQuarter()`
 Gets the number of the quarter of the date
