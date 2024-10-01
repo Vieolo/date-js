@@ -3,6 +3,7 @@
   "version": "2.2.2",
   "description": "Vieolo's Custom JS Date class",
   "main": "dist/index.js",
+  "keywords": ["date", "time"],
   "scripts": {
     "test": "jest --runInBand",
     "build": "npx tsc"

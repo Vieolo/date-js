@@ -50,10 +50,18 @@ describe("VDate", () => {
         expect(new VDate("2020-10-10").getMonthName()).toBe(VDate.monthNamesLong[9])
         expect(new VDate("2020-10-10").getMonthName("long")).toBe(VDate.monthNamesLong[9])
         expect(new VDate("2020-10-10").getMonthName("short")).toBe(VDate.monthNamesShort[9])
+        expect(new VDate("2020-10-10").getMonthName("long", "EN")).toBe(VDate.monthNamesLong[9])
+        expect(new VDate("2020-10-10").getMonthName("short", "EN")).toBe(VDate.monthNamesShort[9])
+        expect(new VDate("2020-10-10").getMonthName("long", "NL")).toBe("Oktober")
+        expect(new VDate("2020-10-10").getMonthName("short", "NL")).toBe("Okt")
 
         expect(new VDate("2023-04-28").getDayName()).toBe(VDate.weekDayLong[5])
         expect(new VDate("2023-04-28").getDayName("long")).toBe(VDate.weekDayLong[5])
         expect(new VDate("2023-04-28").getDayName("short")).toBe(VDate.weekDayShort[5])
+        expect(new VDate("2023-04-28").getDayName("long", "EN")).toBe(VDate.weekDayLong[5])
+        expect(new VDate("2023-04-28").getDayName("short", "EN")).toBe(VDate.weekDayShort[5])
+        expect(new VDate("2023-04-28").getDayName("long", "NL")).toBe("Vrijdag")
+        expect(new VDate("2023-04-28").getDayName("short", "NL")).toBe("Vr")
 
     })
 
@@ -67,11 +75,25 @@ describe("VDate", () => {
         expect(d.formatMonth()).toBe("October 2020");
         expect(d.formatMonth('long')).toBe("October 2020");
         expect(d.formatMonth('short')).toBe("Oct 2020");
+        expect(d.formatMonth('long', "EN")).toBe("October 2020");
+        expect(d.formatMonth('short', "EN")).toBe("Oct 2020");
+        expect(d.formatMonth('long', "DE")).toBe("Oktober 2020");
+        expect(d.formatMonth('short', "DE")).toBe("Okt 2020");
         
         expect(d.formatDateTime()).toBe("Oct 11, 2020 14:24");
         expect(d2.formatDateTime()).toBe("Mar 04, 2020 05:04");
         expect(d3.formatDateTime()).toBe("Jan 01, 2020 12:30");
         expect(d4.formatDateTime()).toBe("Jan 20, 2020 00:00");
+
+        expect(d.formatDateTime(undefined, undefined, "EN")).toBe("Oct 11, 2020 14:24");
+        expect(d2.formatDateTime(undefined, undefined, "EN")).toBe("Mar 04, 2020 05:04");
+        expect(d3.formatDateTime(undefined, undefined, "EN")).toBe("Jan 01, 2020 12:30");
+        expect(d4.formatDateTime(undefined, undefined, "EN")).toBe("Jan 20, 2020 00:00");
+
+        expect(d.formatDateTime(undefined, undefined, "NL")).toBe("Okt 11, 2020 14:24");
+        expect(d2.formatDateTime(undefined, undefined, "NL")).toBe("Mrt 04, 2020 05:04");
+        expect(d3.formatDateTime(undefined, undefined, "NL")).toBe("Jan 01, 2020 12:30");
+        expect(d4.formatDateTime(undefined, undefined, "NL")).toBe("Jan 20, 2020 00:00");
         
         expect(d.formatDate()).toBe("2020-10-11");
         expect(d.formatDate("yyyy-mm-dd")).toBe("2020-10-11");
@@ -80,6 +102,10 @@ describe("VDate", () => {
         expect(d.formatDate("mm/dd/yyyy")).toBe("10/11/2020");
         expect(d.formatDate("mon dd, yyyy")).toBe("Oct 11, 2020");
         expect(d.formatDate("month dd, yyyy")).toBe("October 11, 2020");
+        expect(d.formatDate("mon dd, yyyy", "EN")).toBe("Oct 11, 2020");
+        expect(d.formatDate("month dd, yyyy", "EN")).toBe("October 11, 2020");
+        expect(d.formatDate("mon dd, yyyy", "NL")).toBe("Okt 11, 2020");
+        expect(d.formatDate("month dd, yyyy", "NL")).toBe("Oktober 11, 2020");
       
         expect(d2.formatDate()).toBe("2020-03-04");
         expect(d2.formatDate("yyyy-mm-dd")).toBe("2020-03-04");
@@ -90,6 +116,10 @@ describe("VDate", () => {
         expect(d2.formatDate("mm/dd/yyyy")).toBe("03/04/2020");
         expect(d2.formatDate("mon dd, yyyy")).toBe("Mar 04, 2020");
         expect(d2.formatDate("month dd, yyyy")).toBe("March 04, 2020");
+        expect(d2.formatDate("mon dd, yyyy", "EN")).toBe("Mar 04, 2020");
+        expect(d2.formatDate("month dd, yyyy", "EN")).toBe("March 04, 2020");
+        expect(d2.formatDate("mon dd, yyyy", "NL")).toBe("Mrt 04, 2020");
+        expect(d2.formatDate("month dd, yyyy", "NL")).toBe("Maart 04, 2020");
       
         expect(d3.formatDate()).toBe("2020-01-01");
         expect(d3.formatDate("yyyy-mm-dd")).toBe("2020-01-01");

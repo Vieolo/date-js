@@ -1,4 +1,5 @@
-import type { DateFormats, Week } from './types';
+import type { DateFormats, Week, SupportedLanguage } from './types';
+import { I18N } from './i18n';
 
 
 /**
@@ -179,7 +180,7 @@ export class VDate extends Date {
 	 * @param format - The desired format. default = 'yyyy-mm-dd'
 	 * @returns String
 	 */
-	formatDate(format: DateFormats = 'yyyy-mm-dd'): string {
+	formatDate(format: DateFormats = 'yyyy-mm-dd', lang?: SupportedLanguage): string {
 		let dd = this.getDate();
 		let ddString: string = dd.toString();
 
@@ -203,13 +204,15 @@ export class VDate extends Date {
 		} else if (format === 'dd.mm.yyyy') {
 			return `${ddString}.${mmString}.${yyyy}`;
 		} else if (format === "month dd, yyyy") {
-			return `${VDate.monthNamesLong[this.getMonth()]} ${ddString}, ${yyyy}`;
+			let monthName = this.getMonthName('long', lang)
+			return `${monthName} ${ddString}, ${yyyy}`;
 		} else if (format === 'dd-mm-yyyy') {
 			return `${ddString}-${mmString}-${yyyy}`;
 		} else if (format === 'yyyy.mm.dd') {
 			return `${yyyy}.${mmString}.${ddString}`;
 		}
-		return `${VDate.monthNamesShort[this.getMonth()]} ${ddString}, ${yyyy}`;
+		let monthName = this.getMonthName('short', lang)
+		return `${monthName} ${ddString}, ${yyyy}`;
 	}
 
 
@@ -221,8 +224,8 @@ export class VDate extends Date {
 	 * @param ampm Whether the time should be displayed as 24 hours or as AM/PM
 	 * @returns string
 	 */
-	formatDateTime(format: DateFormats = "mon dd, yyyy", ampm = false): string {
-		return `${this.formatDate(format)} ${this.formatTime(ampm)}`
+	formatDateTime(format: DateFormats = "mon dd, yyyy", ampm = false, lang?: SupportedLanguage): string {
+		return `${this.formatDate(format, lang)} ${this.formatTime(ampm)}`
 	}
 
 	/**
@@ -335,8 +338,8 @@ export class VDate extends Date {
 	 * formats the date as the month and full year
 	 * @returns String - example: June 2019
 	 */
-	formatMonth(length?: "long" | "short"): string {
-		return `${(length === 'short' ? VDate.monthNamesShort : VDate.monthNamesLong)[this.getMonth()]} ${this.getFullYear()}`
+	formatMonth(length?: "long" | "short", lang?: SupportedLanguage): string {
+		return `${this.getMonthName(length, lang)} ${this.getFullYear()}`
 	}
 
 
@@ -582,12 +585,15 @@ export class VDate extends Date {
 	}
 
 	/**
-	 * Returns the name of the month in English
+	 * Returns the name of the month in English or chosen language
 	 * @param length Whether the long format of the month name to be returned or the short format (default: long)
 	 * @returns string
 	 */
-	getMonthName(length?: "long" | "short"): string {
-		return (length === "short" ? VDate.monthNamesShort : VDate.monthNamesLong)[this.getMonth()]
+	getMonthName(length?: "long" | "short", lang?: SupportedLanguage): string {
+		let monthName = lang 
+			? I18N.i18nMonths[length || 'long'][lang][this.getMonth()] 
+			: (length === 'short' ? VDate.monthNamesShort : VDate.monthNamesLong)[this.getMonth()];
+		return monthName
 	}
 
 	/**
@@ -595,8 +601,11 @@ export class VDate extends Date {
 	 * @param length Whether the long format of the day name to be returned or the long format (default: long)
 	 * @returns string
 	 */
-	getDayName(length?: "long" | "short"): string {
-		return (length === "short" ? VDate.weekDayShort : VDate.weekDayLong)[this.getDay()]
+	getDayName(length?: "long" | "short", lang?: SupportedLanguage): string {
+		let dayName = lang 
+			? I18N.i18nDays[length || 'long'][lang][this.getDay()] 
+			: (length === 'short' ? VDate.weekDayShort : VDate.weekDayLong)[this.getDay()];
+		return dayName
 	}
 
 	//#endregion

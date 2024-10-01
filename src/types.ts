@@ -26,3 +26,13 @@ export type Week = {
 	end: VDate, 
 	weekNumber: number 
 }
+
+export type SupportedLanguage =
+    "EN" |
+    "NL" |
+    "PL" |
+    "DE" |
+    "FR" |
+    "ES" |
+    "RU" |
+    "PT" 
